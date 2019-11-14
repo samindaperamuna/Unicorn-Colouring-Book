@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Coloriage Animaux Adulte</string>
+    <string name="UMENGAPPKEY">55c0b9f967e58ee78f00231d</string>
+    <string name="BAIDUAPIKEY">iD8ulydDkWhNWFmQEGEGY4m9</string>
+    <string name="facebook_app_id">1493345047643407</string>
+    <string name="CHANNEL"> Par défaut </string>
+        
+    <string name="action_settings">Paramètres</string>
+        
+    <string name="action_about"> À propos de </string>
+        
+    <string name="action_advice">Donner des conseils</string>
+        
+    <string name="clickloadmore">Faire défiler vers le bas pour charger plus </string>
+        
+    <string name="loadmoretheme">Charger plus ... </string>
+        
+    <string name="grabdata"> Chargement des données ... </string>
+        
+    <string name="loadpicture"> Chargement </string>
+        
+    <string name="loadpicturefailed"> Echec du chargement, veuillez réessayer. </string>
+        
+    <string name="advance"> Plus </string>
+        
+    <string name="undo"> Annuler </string>
+        
+    <string name="redo"> Refaire </string>
+        
+    <string name="save"> Enregistrer </string>
+        
+    <string name="share"> Partager </string>
+        
+    <string name="savingimage"> Enregistrer localement </string>
+        
+    <string name="saveFailed"> Échec de l\'enregistrement </string>
+        
+    <string name="saveSuccess"> Votre image a été enregistrée dans: </string>
+        
+    <string name="sharecontent"> Je joue à Color Finger Coloring, Viens jouer avec moi!! </string>
+        
+    <string name="pleaseselect"> Veuillez sélectionner </string>
+        
+    <string name="sharemywork"> Venez voir mon nouveau travail. </string>
+        
+    <string name="open"> Lire </string>
+        
+    <string name="openfailed"> Du bout des doigts pour en créer un maintenant! </string>
+        
+    <string name="ok"> OK </string>
+        
+    <string name="quitorsave"> Avant de partir, voulez-vous enregistrer votre travail actuel? </string>
+        
+    <string name="quit"> NON </string>
+        <string name="action_search"> Rechercher</string>  
+    <string name="action_more">Plus</string>   
+    <string name="marketcomment">Notez moi</string>    
+    <string name="about">A propos</string>    
+    <string name="version">version</string>    
+    <string name="email">Feedback</string>    
+    <string name="authoremail">469526674@qq.com</string>    
+    <string name="qq">QQ login</string>    
+    <string name="commentFailed"> Erreur! </string>
+        
+    <string name="opensuccess"> a été ouvert pour que vous puissiez sauvegarder le travail, vous pouvez continuer à le créer! \n Cliquez sur Annuler pour retourner l\'image d\'origine!</string>
+        
+    <string name="noupdatelog"> </string>
+        
+    <string name="undostacksize"> Annuler les étapes </string>
+        
+    <string name="loadfailed"> Échec du chargement des données </string>
+        
+    <string name="commentDialogContent">Donnez moi un cinq étoiles, vous pouvez télécharger gratuitement nouvelles oeuvres!</string>
+        
+    <string name="nexttime">Plus tard</string>
+        
+    <string name="gocomment">Notez</string>
+        
+    <string name="clearcache">Effacer toutes les images en cache \n Votre travail ne sera pas supprimé</string>
+        
+        
+    <string name="clearcacheing">Nettoyage du cache, veuillez patienter </string>
+        
+        
+    <string name="clearcachesuccess"> Effacer avec succès </string>
+        
+        
+    <string name="themelist">Liste de thèmes</string>
+        
+        
+    <string name="pleasepressexit"> Appuyez de nouveau sur Quitter </string>
+        
+        
+    <string name="nomoredata"> Tout le chargement est terminé </string>
+        
+        
+    <string name="loading"> Chargement... </string>
+        
+        
+    <string name="secretGarden"> Coloriage Moana </string>
+        
+        
+    <string name="welcomeusethis">Hey!</string>
+        
+        
+    <string name="paintHint">Sélectionnez votre couleur, puis appuyez sur l’image pour colorier \n Avec deux doigts pouvez zoomez sur l\'image \n Vous pouvez enregistrer quatre couleurs préférées, amusez-vous!
+    </string>
+        
+        
+    <string name="paintHint2"> Après avoir ouvert une image enregistrée, appuyez sur Annuler pour revenir à l\'original, recommencer à colorier! \n Amusez-vous!
+    </string>
+        
+        
+    <string name="qqgroup"> Groupe de joueurs QQ </string>
+        
+        
+    <string name="qqgroupnumber"> 104368068 </string>
+        
+        
+    <string name="joinGroupFailed">QQ n\'est pas installé ou la version installée n\'est pas prise en charge
+    </string>
+        
+        
+    <string name="joinGroup"> rejoindre les groupes QQ </string>
+        
+        
+    <string name="wechat"> Wechat </string>
+        
+        
+    <string name="userlogin"> Mes coloriages </string>
+        
+        
+    <string name="imagewall"> Mur d\'images </string>
+        
+        
+    <string name="pullqqloging"> Connexion à la connexion QQ </string>
+        
+        
+    <string name="network_notconnet"> Veuillez vous connecter au réseau </string>
+        
+        
+    <string name="comment"> Commentaires </string>
+        
+        
+    <string name="logout"> Logout </string>
+        
+        
+    <string name="addtext"> Ajouter un texte </string>
+        
+        
+    <string name="addvoice"> Ajouter un son </string>
+        
+        
+    <string name="delete"> Supprimer </string>
+        
+        
+    <string name="repaint"> Recolorier </string>
+        
+        
+    <string name="confirmRepaint"> Recolorier supprimera les travaux sauvegardés</string>
+        
+        
+    <string name="cancel"> Annuler </string>
+        
+        
+    <string name="addeditwords_hint"> écrivez quelques choses! </string>
+        
+        
+    <string name="textsize"> Taille de la police </string>
+        
+        
+    <string name="small"> petit </string>
+        
+        
+    <string name="middle"> moyen </string>
+        
+        
+    <string name="large"> grand </string>
+        
+        
+    <string name="huge"> énorme </string>
+        
+        
+    <string name="textcolor"> Couleur de la police </string>
+        
+        
+    <string name="nowords"> Ecrivez quelque chose s\'il vous plait! </string>
+        
+        
+    <string name="savetocloud"> Télécharger </string>
+        
+        
+    <string name="giveme5stars"> Venez me donner un cinq étoiles et déverrouillez immédiatement ces
+        des photos!
+    </string>
+        
+        
+    <string name="updateVersion"> version de mise à niveau </string>
+        
+        
+    <string name="currentVersionIsntSupport"> lol ~ pas trouver la clé pour déverrouiller cette image, s\'il vous plaît
+        mettez à jour votre version puis essayez à nouveau!
+    </string>
+        
+        
+    <string name="checkupdate"> Vérifier les mises à jour </string>
+        
+        
+    <string name="sharemeunlock"> Partagez-moi avec vos amis et déverrouillez immédiatement
+        ces images!
+    </string>
+        
+        
+    <string name="noupdate"> Dernière version </string>
+        
+        
+    <string name="onlyupdateinwifi"> Pas de connexion wifi, ne met à jour que sous le wifi </string>
+        
+        <string name="timeout"> La connexion a expiré, veuillez réessayer </string>.
+        
+        
+    <string name="checkupdateing"> Vérifier la mise à jour </string>
+        
+        
+    <string name="addborder"> Ajouter un cadre </string>
+        
+        
+    <string name="pleaselogin"> Bientôt disponible! </string>
+        
+        
+    <string name="comingsoon"> Bientôt disponible! </string>
+        
+        
+    <string name="localPaint"> Coloriages locales </string>
+        
+        
+    <string name="cloudPaint"> Coloriages Cloud </string>
+        
+        
+    <string name="nopaint"> Impossible de trouver des données! </string>
+        
+        
+    <string name="deletePaintFailed"> La suppression des coloriages a échoué </string>
+        
+        
+    <string name="deleteAllPaints"> Supprimer toutes les coloriages </string>
+        
+        
+    <string name="confirmDeleteAllPaints"> Attention! Vous voulez confirmer la suppression de toutes vos coloriages?
+    </string>
+        
+        
+    <string name="deleteAllPaintsSuccess"> Suppression terminée! </string>
+        
+        
+    <string name="lastModifty"> Dernière modification </string>
+      
+    <string name="aboutImage">GameGFX if you have questions or would like to give me wired manuscript. Please use the following contact information.</string>
+      
+    <string name="addQQgroup"> Rejoindre le groupe QQ </string>
+        
+        
+    <string name="addQQgroupContent"> Besoin de rejoindre des groupes QQ? Après avoir rejoint vous pouvez jouer à des jeux avec d\'autres amis!</string>
+        
+    <string name="pickcolor"> Choisir </string>
+        
+    <string name="pickcolorhint"> Appuyez sur la zone de couleur de votre choix pour prendre la couleur. </string>
+        
+    <string name="pickcolorerror"> Appuyez sur le bon emplacement de couleur. </string>
+        
+        
+    <string name="drawLine"> Dessiner </string>
+        
+        
+    <string name="drawLineHint"> Appuyez sur l\'image pour définir le point de départ. </string>
+        
+        
+    <string name="drawLineHint_second"> Appuyez sur l\'image pour définir le point final. </string>
+        
+        
+    <string name="drawLineHint_finish"> Touchez la zone d\'image valide. </string>
+        
+        
+    <string name="allPicture"> Coloriages en cache </string>
+        
+        
+    <string name="dontshownexttime"> Ne pas afficher la prochaine fois. </string>
+        
+        
+    <string name="buxianfunction"> Tracer des lignes </string>
+        
+       
+    <string name="buxianfunctionhint"> Vous pouvez maintenant tracer des lignes dans l\'image, puis la remplir! \n D\'abord, cliquez n\'importe où sur l\'image, définissez le point de départ.</string>
+
+        
+    <string name="buxianfirstpointsethint"> Ensuite, touchez l\'image pour définir la position finale, le système complétera automatiquement la ligne.</string>
+        
+        
+    <string name="buxiannextpointsethint"> Touchez les autres zones pour continuer à dessiner des lignes. Le bouton Indo peut être effacé de la pré-ligne.</string>
+        
+        
+    <string name="pullfacebookloging"> Connectez-vous à la connexion à Facebook </string>
+      
+    <string name="facebooklogin"> Identifiant Facebook </string>
+        
+    <string name="language"> Langue </string>
+        
+    <string name="menu"> MENU </string>
+        
+    <string name="social"> SNS </string>
+        
+    <string name="loginSuccess"> Succès de la connexion </string>
+        
+    <string name="loginFailed"> Échec de la connexion </string>
+        
+    <string name="logincontent"> Connexion en tant que ... </string>
+        
+    <string name="logincontentfirst"> Connectez-vous et utilisez la fonction de téléchargement dans le cloud! \n Connectez-vous maintenant! </string>
+        
+    <string name="loginbg"> Connectez-vous en arrière-plan .. </string>
+        
+    <string name="jianbian_color"> Graduel </string>
+        
+    <string name="normal_color"> Normal </string>
+        
+    <string name="gradualModel"> Modèle graduel </string>
+        
+    <string name="gradualModelHint">Couleurs en dégradé. \n Remarque: vous ne pouvez pas couvrir d\'autres couleurs après un dégradé. \n Si vous souhaitez modifier, annulez d\'abord! </string>
+</resources>
