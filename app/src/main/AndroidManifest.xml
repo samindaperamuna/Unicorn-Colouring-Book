@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gamegfx.adultcoloringbooks">
+    package="org.fifthgen.colouringbooks">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,14 +17,14 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name="com.gamegfx.adultcoloringbooks.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.gamegfx.adultcoloringbooks.controller.main.MainActivity"
+            android:name=".controller.main.MainActivity"
             android:configChanges="locale"
             android:label="@string/app_name"
             android:launchMode="singleTop"
@@ -39,15 +39,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.gamegfx.adultcoloringbooks.controller.paint.PaintActivity"
+            android:name=".controller.paint.PaintActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="com.gamegfx.adultcoloringbooks.controller.categorylist.GridViewActivity"
+            android:name=".controller.categorylist.GridViewActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.gamegfx.adultcoloringbooks.controller.paint.AdvancePaintActivity"
+            android:name=".controller.paint.AdvancePaintActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoActionBar" />
 

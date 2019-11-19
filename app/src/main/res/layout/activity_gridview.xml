@@ -35,7 +35,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.gamegfx.adultcoloringbooks.view.EmptyRecyclerView
+        <org.fifthgen.colouringbooks.view.EmptyRecyclerView
             android:id="@+id/detail_gird"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

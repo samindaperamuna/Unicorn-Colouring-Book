@@ -23,7 +23,7 @@
             android:scaleType="fitStart"
             app:srcCompat="@drawable/bg" />
 
-        <com.gamegfx.adultcoloringbooks.view.ColorPicker
+        <org.fifthgen.colouringbooks.view.ColorPicker
             android:id="@+id/seekcolorpicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

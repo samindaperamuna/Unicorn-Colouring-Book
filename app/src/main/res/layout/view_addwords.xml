@@ -84,7 +84,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/textcolor" />
 
-    <com.gamegfx.adultcoloringbooks.view.ColorPickerSeekBar
+    <org.fifthgen.colouringbooks.view.ColorPickerSeekBar
         android:id="@+id/seekcolorpicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

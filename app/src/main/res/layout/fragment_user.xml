@@ -16,13 +16,13 @@
         android:layout_height="fill_parent"
         android:layout_marginTop="50dp">
 
-        <com.gamegfx.adultcoloringbooks.view.EmptyRecyclerView
+        <org.fifthgen.colouringbooks.view.EmptyRecyclerView
             android:id="@+id/userpaintlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical">
 
-        </com.gamegfx.adultcoloringbooks.view.EmptyRecyclerView>
+        </org.fifthgen.colouringbooks.view.EmptyRecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include

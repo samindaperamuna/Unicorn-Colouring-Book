@@ -8,7 +8,7 @@
     android:visibility="gone">
 
 
-    <com.gamegfx.adultcoloringbooks.view.ImageButton_define
+    <org.fifthgen.colouringbooks.view.ImageButton_define
         android:id="@+id/delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:text="@string/delete"
         android:textColor="@drawable/textcolor_white_gray" />
 
-    <com.gamegfx.adultcoloringbooks.view.ImageButton_define
+    <org.fifthgen.colouringbooks.view.ImageButton_define
         android:id="@+id/share"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:textColor="@drawable/textcolor_white_gray" />
 
 
-    <com.gamegfx.adultcoloringbooks.view.ImageButton_define
+    <org.fifthgen.colouringbooks.view.ImageButton_define
         android:id="@+id/save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:text="@string/save"
         android:textColor="@drawable/textcolor_white_gray" />
 
-    <com.gamegfx.adultcoloringbooks.view.ImageButton_define
+    <org.fifthgen.colouringbooks.view.ImageButton_define
         android:id="@+id/open"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         android:textColor="@drawable/textcolor_white_gray"
         android:visibility="invisible" />
 
-    <com.gamegfx.adultcoloringbooks.view.ImageButton_define
+    <org.fifthgen.colouringbooks.view.ImageButton_define
         android:id="@+id/more"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

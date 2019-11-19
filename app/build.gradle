@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.gamegfx.adultcoloringbooks"
+        applicationId "org.fifthgen.unicorncolouringbook"
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
