@@ -12,7 +12,6 @@
         android:text="@string/undostacksize" />
 
     <SeekBar
-        android:id="@+id/stacksize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="150dp" />
@@ -63,7 +62,7 @@
             android:button="@null"
             android:gravity="center"
             android:minHeight="40dp"
-            android:text="简体"
+            android:text="@string/langCN"
             android:textColor="@drawable/textsize_textcolor" />
 
 
@@ -71,26 +70,28 @@
             android:id="@+id/EN"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_checkchanged"
             android:button="@null"
             android:gravity="center"
             android:minHeight="40dp"
-            android:text="English"
+            android:text="@string/langEN"
             android:textColor="@drawable/textsize_textcolor" />
 
         <RadioButton
             android:id="@+id/FR"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_checkchanged"
             android:button="@null"
             android:gravity="center"
             android:minHeight="40dp"
-            android:text="Français"
+            android:text="@string/langFR"
             android:textColor="@drawable/textsize_textcolor" />
     </RadioGroup>
 </LinearLayout>

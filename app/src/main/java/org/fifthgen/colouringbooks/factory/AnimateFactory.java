@@ -1,5 +1,7 @@
 package org.fifthgen.colouringbooks.factory;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
@@ -8,7 +10,6 @@ import android.view.animation.RotateAnimation;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.nineoldandroids.animation.Animator;
 
 import org.fifthgen.colouringbooks.R;
 
@@ -40,14 +41,12 @@ public class AnimateFactory {
         return rotateAnimation;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void SlideOutUpAnimation(View... view) {
         for (final View v : view) {
             if (v.getVisibility() == View.VISIBLE) {
-                Animator.AnimatorListener listener = new Animator.AnimatorListener() {
+                AnimatorListener listener = new AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
-
                     }
 
                     @Override
@@ -57,15 +56,14 @@ public class AnimateFactory {
 
                     @Override
                     public void onAnimationCancel(Animator animator) {
-
                     }
 
                     @Override
                     public void onAnimationRepeat(Animator animator) {
-
                     }
                 };
-                YoYo.with(Techniques.FadeOut).withListener((android.animation.Animator.AnimatorListener) listener).duration(300).playOn(v);
+
+                YoYo.with(Techniques.FadeOut).withListener(listener).duration(300).playOn(v);
             }
         }
     }
