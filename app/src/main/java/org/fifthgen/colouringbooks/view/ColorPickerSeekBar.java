@@ -139,6 +139,7 @@ public class ColorPickerSeekBar extends AppCompatSeekBar implements SeekBar.OnSe
      * This includes changes that were initiated by the user through a
      * touch gesture or arrow key/trackball as well as changes that were initiated programmatically.
      */
+    @SuppressWarnings("EmptyMethod")
     public interface OnColorSeekBarChangeListener {
 
         /**

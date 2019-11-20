@@ -1,4 +1,5 @@
 package org.fifthgen.colouringbooks.view;
+
 /*
  * Copyright 2013 Piotr Adamus
  *
@@ -41,6 +42,7 @@ import android.view.View;
 
 import org.fifthgen.colouringbooks.util.L;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ColorPicker extends View {
 
     /**
@@ -128,9 +130,6 @@ public class ColorPicker extends View {
         valueSliderPaint.setAntiAlias(true);
         valueSliderPaint.setDither(true);
 
-//        colorViewPaint = new Paint();
-//        colorViewPaint.setAntiAlias(true);
-
         colorViewPath = new Path();
         valueSliderPath = new Path();
         arrowPointerPath = new Path();
@@ -160,11 +159,6 @@ public class ColorPicker extends View {
         // drawing color wheel
 
         canvas.drawBitmap(colorWheelBitmap, centerX - colorWheelRadius, centerY - colorWheelRadius, null);
-
-        // drawing color view
-
-//        colorViewPaint.setColor(Color.HSVToColor(colorHSV));
-//        canvas.drawPath(colorViewPath, colorViewPaint);
 
         // drawing value slider
 
@@ -299,6 +293,7 @@ public class ColorPicker extends View {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();

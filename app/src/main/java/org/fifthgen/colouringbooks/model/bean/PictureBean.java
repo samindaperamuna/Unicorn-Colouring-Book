@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/8/12.
  */
+@SuppressWarnings("unused")
 public class PictureBean extends ResponseBean {
 
     @SerializedName("result")
@@ -25,7 +26,7 @@ public class PictureBean extends ResponseBean {
         private int id;
         private int status;
         private float wvHradio;
-        private String uri; //just for sercret garden
+        private String uri; //just for secret garden
 
         public Picture(int id, int status, float wvHradio) {
             this.status = status;

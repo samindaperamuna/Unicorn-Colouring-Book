@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -34,6 +35,7 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/8/10.
  */
+@SuppressWarnings("ALL")
 public class GridViewActivityModel {
     private static GridViewActivityModel gridViewActivityModel;
     private final String CATEGORY = "categoryid";
@@ -64,23 +66,15 @@ public class GridViewActivityModel {
         // check have cache if have cache then add a tag
         if (DiskCacheUtils.findInCache(bigImageUrl, ImageLoader.getInstance().getDiskCache()) == null) {
             tag.setImageResource(R.drawable.ic_file_download_black_24dp);
-            tag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    downloadPic(tag, bigImageUrl);
-                }
-            });
+            tag.setOnClickListener(view -> downloadPic(tag, bigImageUrl));
         } else {
             tag.setImageResource(R.drawable.ic_done_black_24dp);
-            tag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //do nothing just block parent listener
-                }
+            tag.setOnClickListener(view -> {
+                //do nothing just block parent listener
             });
         }
-        if (hasSavedFile(ImageSaveUtil.convertImageLageUrl(bigImageUrl))) {
-            AsynImageLoader.showImageAsynWithoutCache(imageView, "file:/" + root + ImageSaveUtil.convertImageLageUrl(bigImageUrl).hashCode() + ".png");
+        if (hasSavedFile(ImageSaveUtil.convertImageLargeUrl(bigImageUrl))) {
+            AsynImageLoader.showImageAsynWithoutCache(imageView, "file:/" + root + ImageSaveUtil.convertImageLargeUrl(bigImageUrl).hashCode() + ".png");
         } else {
             AsynImageLoader.showImageAsynWithAllCacheOpen(imageView, url);
         }
@@ -103,11 +97,8 @@ public class GridViewActivityModel {
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                 tag.setImageResource(R.drawable.ic_done_black_24dp);
-                tag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //do nothing just block parent listener
-                    }
+                tag.setOnClickListener(view1 -> {
+                    //do nothing just block parent listener
                 });
                 tag.clearAnimation();
             }
@@ -145,6 +136,7 @@ public class GridViewActivityModel {
         void LoadPicFailed(String error);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class LoadDetailAsyn extends AsyncTask {
         @Override
         protected Object doInBackground(Object[] objects) {

@@ -6,27 +6,27 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
  * Created by GameGFX Studio on 2015/8/14.
  */
+@SuppressWarnings("deprecation")
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-    List<String> tabs = new ArrayList<String>();
+    List<String> tabs;
 
     public SectionsPagerAdapter(FragmentManager fragmentManager, List<String> tabs) {
         super(fragmentManager);
         this.tabs = tabs;
     }
 
+    @NotNull
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
             return ThemeListFragment.getInstance();
-//        } else if (position == 1) {
-//            return ImageWallFragment.getInstance();
-//        } else {
         } else {
             return UserFragment.getInstance();
         }

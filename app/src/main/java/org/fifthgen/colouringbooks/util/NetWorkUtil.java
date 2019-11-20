@@ -6,9 +6,12 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import java.util.Objects;
+
 /**
  * Created by Swifty on 2015/9/17.
  */
+@SuppressWarnings({"WeakerAccess", "deprecation"})
 public class NetWorkUtil {
     /**
      * 没有网络
@@ -33,7 +36,7 @@ public class NetWorkUtil {
 
     public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = Objects.requireNonNull(cm).getActiveNetworkInfo();
         return ni != null && ni.isConnectedOrConnecting();
     }
 
@@ -47,12 +50,14 @@ public class NetWorkUtil {
      * 获取网络状态，wifi,wap,2g,3g.
      *
      * @param context 上下文
-     * @return int 网络状态 {@link #NETWORKTYPE_2G},{@link #NETWORKTYPE_3G},          *{@link #NETWORKTYPE_INVALID},{@link #NETWORKTYPE_WAP}* <p>{@link #NETWORKTYPE_WIFI}
+     * @return int 网络状态 {@link #NETWORKTYPE_2G},{@link #NETWORKTYPE_3G}, *{@link #NETWORKTYPE_INVALID},{@link #NETWORKTYPE_WAP}* <p>{@link #NETWORKTYPE_WIFI}
      */
     private static int getNetWorkType(Context context) {
-        int mNetWorkType = 0;
+        int mNetWorkType = NETWORKTYPE_INVALID;
+
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = Objects.requireNonNull(manager).getActiveNetworkInfo();
+
         if (networkInfo != null && networkInfo.isConnected()) {
             String type = networkInfo.getTypeName();
             if (type.equalsIgnoreCase("WIFI")) {
@@ -63,21 +68,23 @@ public class NetWorkUtil {
                         ? (isFastMobileNetwork(context) ? NETWORKTYPE_3G : NETWORKTYPE_2G)
                         : NETWORKTYPE_WAP;
             }
-        } else {
-            mNetWorkType = NETWORKTYPE_INVALID;
         }
+
         return mNetWorkType;
     }
 
     private static boolean isFastMobileNetwork(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        if (telephonyManager == null)
+            return false;
+
         switch (telephonyManager.getNetworkType()) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
+            case TelephonyManager.NETWORK_TYPE_EDGE:
                 return false; // ~ 50-100 kbps
             case TelephonyManager.NETWORK_TYPE_CDMA:
                 return false; // ~ 14-64 kbps
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-                return false; // ~ 50-100 kbps
             case TelephonyManager.NETWORK_TYPE_EVDO_0:
                 return true; // ~ 400-1000 kbps
             case TelephonyManager.NETWORK_TYPE_EVDO_A:
@@ -103,10 +110,8 @@ public class NetWorkUtil {
             case TelephonyManager.NETWORK_TYPE_LTE:
                 return true; // ~ 10+ Mbps
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return false;
             default:
                 return false;
         }
     }
-
 }

@@ -14,23 +14,22 @@ import androidx.appcompat.widget.AppCompatImageView;
 import org.fifthgen.colouringbooks.util.DensityUtil;
 
 
-public class ImageCheckBox_define extends LinearLayout implements Checkable, View.OnClickListener {
+@SuppressWarnings("CanBeFinal")
+public class imageCheckBoxDefine extends LinearLayout implements Checkable, View.OnClickListener {
     private static final int[] STATE_CHECKABLE = {android.R.attr.state_pressed};
     private boolean mChecked;
     private CheckedImageView imageViewbutton;
     private TextView textView;
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
-    public ImageCheckBox_define(Context context, AttributeSet attrs) {
+    public imageCheckBoxDefine(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        // TODO Auto-generated constructor stub
         imageViewbutton = new CheckedImageView(context, attrs);
         imageViewbutton.setPadding(DensityUtil.dip2px(context, 5), DensityUtil.dip2px(context, 3), DensityUtil.dip2px(context, 5), DensityUtil.dip2px(context, 3));
         imageViewbutton.setAdjustViewBounds(true);
         imageViewbutton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         textView = new TextView(context, attrs);
-        //水平居中
         textView.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
         textView.setTextSize(11);
         textView.setPadding(0, 0, 0, DensityUtil.dip2px(context, 3));
@@ -123,7 +122,5 @@ public class ImageCheckBox_define extends LinearLayout implements Checkable, Vie
             }
             return drawableState;
         }
-
     }
-
 }

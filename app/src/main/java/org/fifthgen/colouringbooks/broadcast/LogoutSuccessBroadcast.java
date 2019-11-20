@@ -6,6 +6,7 @@ import android.content.Intent;
 /**
  * Created by Swifty on 2015/10/4.
  */
+@SuppressWarnings("unused")
 public class LogoutSuccessBroadcast {
     private static LogoutSuccessBroadcast ourInstance = new LogoutSuccessBroadcast();
 

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+@SuppressWarnings({"FieldCanBeLocal", "unused", "WeakerAccess"})
 public class MyHttpClient {
     private DefaultHttpClient httpClient;
     private HttpPost httpPost;
@@ -33,8 +34,7 @@ public class MyHttpClient {
 
     public MyHttpClient() {
         httpParameters = new BasicHttpParams();// Set the timeout in
-        HttpConnectionParams.setConnectionTimeout(httpParameters,
-                timeoutConnection);// Set the default socket timeout
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);// Set the default socket timeout
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
     }
 
@@ -44,9 +44,11 @@ public class MyHttpClient {
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutsock);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public String executePostRequest(String path, List<NameValuePair> params) {
         httpClient = new DefaultHttpClient(httpParameters);
         String ret = null;
+
         try {
             httpPost = new HttpPost(path);
             httpEntity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -55,6 +57,7 @@ public class MyHttpClient {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         try {
             httpResponse = httpClient.execute(httpPost);
             if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -78,17 +81,18 @@ public class MyHttpClient {
         }
     }
 
-    public String executePostRequest(String path)
-            throws Exception {
+    public String executePostRequest(String path) throws Exception {
         httpClient = new DefaultHttpClient(httpParameters);
         String ret = null;
         this.httpPost = new HttpPost(path);
         addHeader(httpPost);
         httpResponse = httpClient.execute(httpPost);
+
         if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
             HttpEntity entity = httpResponse.getEntity();
             ret = EntityUtils.toString(entity);
         }
+
         return ret;
     }
 

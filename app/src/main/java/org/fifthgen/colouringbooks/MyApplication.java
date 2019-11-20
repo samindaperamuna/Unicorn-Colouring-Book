@@ -23,8 +23,6 @@ import org.fifthgen.colouringbooks.util.L;
 
 import java.util.Locale;
 
-//import com.gamegfx.colmoana.util.UmengUtil;
-
 /**
  * Created by GameGFX Studio on 2018/7/31.
  */
@@ -41,7 +39,7 @@ public class MyApplication extends Application {
     public static final String ThemeListUrl = MainUrl + "/category"; // post pageid from 0
     public static final String ThemeDetailUrl = MainUrl + "/list"; // post categoryid
     public static final String ImageThumbUrl = MainUrl + "/imageres?category=%d&image=t_%d"; //get add categoryid and imageid
-    public static final String ImageLageUrl = MainUrl + "/imageres?category=%d&image=f_%d";  //get add categoryid and imageid
+    public static final String ImageLargeUrl = MainUrl + "/imageres?category=%d&image=f_%d";  //get add categoryid and imageid
 
     public static final String THEMEID = "theme_id";
     public static final String BIGPIC = "bigpic";
@@ -93,35 +91,37 @@ public class MyApplication extends Application {
 
     public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        return wm.getDefaultDisplay().getWidth();
+        return wm != null ? wm.getDefaultDisplay().getWidth() : 0;
     }
 
+    @SuppressWarnings("unused")
     public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        return wm.getDefaultDisplay().getHeight();
+        return wm != null ? wm.getDefaultDisplay().getHeight() : 0;
     }
 
     public static String getVersion(Context context) {
         try {
             PackageManager packageManager = context.getPackageManager();
             PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            String version = packInfo.versionName;
-            return version;
+            return packInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             L.e("VersionE", e.getMessage());
             e.printStackTrace();
             return "0";
         }
-
     }
 
     public static void restart(Context context) {
-
         if (context == null)
             return;
-        Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(context.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+
         context.startActivity(intent);
         if (context instanceof AppCompatActivity)
             ((AppCompatActivity) context).overridePendingTransition(0, 0);
@@ -147,6 +147,7 @@ public class MyApplication extends Application {
         if (lancode == 0) {
             return;
         }
+
         if (lancode == 1) {
             SharedPreferencesFactory.saveInteger(context, SharedPreferencesFactory.LanguageCode, 1);
             Resources resources = context.getResources();
@@ -180,7 +181,6 @@ public class MyApplication extends Application {
             resources.updateConfiguration(config, dm);
             configChanged(context, config);
         }
-
     }
 
     private static void configChanged(Context context, Configuration configuration) {
@@ -194,7 +194,7 @@ public class MyApplication extends Application {
         super.onCreate();
         initLanguage(this);
         initImageLoader();
-        //UmengUtil.autoUpdate(this);
+
         screenWidth = getScreenWidth(this);
     }
 

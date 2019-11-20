@@ -6,9 +6,12 @@ import android.widget.TextView;
 
 import org.fifthgen.colouringbooks.R;
 
+import java.util.Locale;
+
 /**
  * Created by Swifty on 2015/8/8.
  */
+@SuppressWarnings("unused")
 public class SeekBarFactory {
     private static SeekBarFactory seekBarFactory;
 
@@ -30,7 +33,8 @@ public class SeekBarFactory {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int truly = i + 3;
                 SharedPreferencesFactory.saveInteger(context, SharedPreferencesFactory.StackSize, truly);
-                textView.setText(context.getText(R.string.undostacksize) + " : " + truly);
+                textView.setText(String.format(Locale.getDefault(),
+                        "%s : %d", context.getText(R.string.undostacksize), truly));
             }
 
             @Override

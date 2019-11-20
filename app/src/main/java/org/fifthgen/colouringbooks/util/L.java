@@ -5,6 +5,7 @@ import android.util.Log;
 /**
  * Created by GameGFX Studio on 2015/8/4.
  */
+@SuppressWarnings({"WeakerAccess", "CanBeFinal"})
 public class L {
 
     private static final String TAG = "FillColor";

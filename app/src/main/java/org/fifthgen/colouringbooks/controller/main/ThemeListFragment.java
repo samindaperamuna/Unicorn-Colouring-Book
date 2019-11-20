@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.controller.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,50 +24,48 @@ import org.fifthgen.colouringbooks.MyApplication;
 import org.fifthgen.colouringbooks.R;
 import org.fifthgen.colouringbooks.controller.BaseFragment;
 import org.fifthgen.colouringbooks.controller.categorylist.GridViewActivity;
-import org.fifthgen.colouringbooks.listener.OnThemeListLoadListener;
-import org.fifthgen.colouringbooks.model.OnRecycleViewItemClickListener;
 import org.fifthgen.colouringbooks.model.ThemeListFragmentModel;
 import org.fifthgen.colouringbooks.model.bean.ThemeBean;
 import org.fifthgen.colouringbooks.util.L;
 import org.fifthgen.colouringbooks.util.ListAnimationUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
-
-//import com.gamegfx.colmoana.util.UmengUtil;
 
 /**
  * Created by GameGFX Studio on 2015/8/14.
  */
 public class ThemeListFragment extends BaseFragment {
-    private static final int ONEPAGENUMBER = 20;
+    @SuppressLint("StaticFieldLeak")
     private static ThemeListFragment fragment;
-    RecyclerView listView;
-    FloatingActionButton floatingActionButton;
-    Button footer;
-    List<ThemeBean.Theme> themelist;
-    int id = 0;
-    LinearLayoutManager layoutManager;
-    SwipeRefreshLayout refreshLayout;
-    private int preLast;
+    List<ThemeBean.Theme> themeList;
     private ThemeListAdapter adapter;
     private AlphaInAnimationAdapter alphaAdapter;
     private String search;
     private boolean isLoading;
-    private int page;
-    private AdView mAdView;
 
+    RecyclerView listView;
+    FloatingActionButton floatingActionButton;
+    Button footer;
+    private AdView mAdView;
+    int id = 0;
+    LinearLayoutManager layoutManager;
+    SwipeRefreshLayout refreshLayout;
 
     public static ThemeListFragment getInstance() {
         if (fragment == null) {
             fragment = new ThemeListFragment();
         }
+
         fragment.setRetainInstance(true);
+
         return fragment;
     }
 
@@ -74,17 +73,20 @@ public class ThemeListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme_list, container, false);
         initViews(rootView);
-        if (themelist == null) {
+
+        if (themeList == null) {
             loadData(LoadModel.normal);
             L.e("normal");
         } else {
             L.e("nochange");
             loadData(LoadModel.nochange);
         }
+
         return rootView;
     }
 
 
+    @SuppressLint("InflateParams")
     private void initViews(View rootView) {
         refreshLayout = rootView.findViewById(R.id.swiperefresh);
         swipeRefreshLayout = refreshLayout;
@@ -94,26 +96,20 @@ public class ThemeListFragment extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(layoutManager);
         refreshLayout.setColorSchemeResources(R.color.red, R.color.orange, R.color.green, R.color.maincolor);
+
         footer = LayoutInflater.from(getActivity()).inflate(R.layout.textview_footer, null).findViewById(R.id.footer);
+
         footer.setVisibility(View.GONE);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData(LoadModel.refresh);
-            }
-        });
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                listTop();
-            }
-        });
+        refreshLayout.setOnRefreshListener(() -> loadData(LoadModel.refresh));
+        floatingActionButton.setOnClickListener(v -> listTop());
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) floatingActionButton.getLayoutParams();
             p.setMargins(0, 0, 0, 0); // get rid of margins since shadow area is now the margin
             floatingActionButton.setLayoutParams(p);
         }
 
-        mAdView = new AdView(this.getContext());
+        mAdView = new AdView(Objects.requireNonNull(this.getContext()));
         mAdView.setAdSize(AdSize.LARGE_BANNER);
         mAdView.setAdUnitId(MyApplication.BANNER_AD);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -133,128 +129,62 @@ public class ThemeListFragment extends BaseFragment {
                 addListListener();
                 break;
             case normal:
-                refreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(true);
-                    }
-                });
-                ThemeListFragmentModel.getInstance().loadData(getActivity(), new OnThemeListLoadListener() {
-                    @Override
-                    public void onLoadFinish(List<ThemeBean.Theme> themes) {
-                        refreshLayout.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.setRefreshing(false);
-                            }
-                        });
+                refreshLayout.post(() -> refreshLayout.setRefreshing(true));
 
-                        themelist = new ArrayList<ThemeBean.Theme>();
-                        try {
-                            ArrayList<String> folderlist = new ArrayList<>(Arrays.asList(getActivity().getAssets().list("coloring")));
-                            for (String folder : folderlist) {
-                                themelist.add(new ThemeBean.Theme(-1, folder, folder, 0));
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                ThemeListFragmentModel.getInstance().loadData(getActivity(), themes -> {
+                    refreshLayout.post(() -> refreshLayout.setRefreshing(false));
+                    themeList = new ArrayList<>();
+
+                    try {
+                        ArrayList<String> folderList = new ArrayList<>(Arrays.asList(
+                                Objects.requireNonNull(
+                                        Objects.requireNonNull(getActivity()).getAssets()
+                                                .list("coloring"))));
+                        for (String folder : folderList) {
+                            themeList.add(new ThemeBean.Theme(-1, folder, folder, 0));
                         }
-                        //themelist = new ArrayList<ThemeBean.Theme>();
-                        //themelist.add(new ThemeBean.Theme(-1, MyApplication.NAMESRING, 0));
-                        //themelist.add(new ThemeBean.Theme(4, "Test Theme", 0));
-                        /*if (themes != null && !themes.isEmpty()) {
-                            themelist.addAll(themes);
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.loadfailed), Toast.LENGTH_SHORT).show();
-                        }*/
-                        page = themelist.size() / ONEPAGENUMBER - 1;
-                        addListListener();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+                    addListListener();
                 });
                 break;
             case refresh:
-                isLoading = false;
-                refreshLayout.setRefreshing(false);
-                /*footer.setText(R.string.clickloadmore);
-                if (NetWorkUtil.isNetworkConnected(getActivity())) {
-                    ThemeListFragmentModel.getInstance().refreshListContent(getActivity(), new OnThemeListLoadListener() {
-                        @Override
-                        public void onLoadFinish(List<ThemeBean.Theme> themes) {
-                            L.e("start refresh");
-                            themelist.clear();
-                            themelist.add(new ThemeBean.Theme(-1, MyApplication.NAMESRING, 0));
-                            if (themes != null && !themes.isEmpty()) {
-                                themelist.addAll(themes);
-                                L.e(themelist.size() + "");
-                            } else {
-                                Toast.makeText(getActivity(), getString(R.string.loadfailed), Toast.LENGTH_SHORT).show();
-                            }
-                            page = 0;
-                            alphaAdapter.notifyDataSetChanged();
-                            refreshLayout.setRefreshing(false);
-                        }
-                    });
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.network_notconnet), Toast.LENGTH_SHORT).show();
-                    refreshLayout.setRefreshing(false);
-                }*/
-                break;
             case loadmore:
                 isLoading = false;
                 refreshLayout.setRefreshing(false);
-                /*footer.setText(R.string.loadmoretheme);
-                L.e(isAdded() + "");
-                ThemeListFragmentModel.getInstance().loadMoreData(getActivity(), ++page, new OnThemeListLoadListener() {
-                    @Override
-                    public void onLoadFinish(List<ThemeBean.Theme> names) {
-                        if (names == null) {
-                            --page;
-                            isLoading = false;
-                            //footer.setText(R.string.loadfailed);
-                        } else if (names.isEmpty()) {
-                            --page;
-                            footer.setText(R.string.nomoredata);
-                        } else {
-                            int presize = themelist.size();
-                            themelist.addAll(names);
-                            alphaAdapter.notifyItemInserted(presize);
-                            footer.setText(R.string.clickloadmore);
-                            isLoading = false;
-                        }
-                    }
-                });*/
+
                 break;
         }
     }
 
     private void addListListener() {
-        adapter = new ThemeListAdapter(getActivity(), themelist, footer);
-        adapter.setOnRecycleViewItemClickListener(new OnRecycleViewItemClickListener() {
-            @Override
-            public void recycleViewItemClickListener(View view, int i) {
-                if (search == null || search.isEmpty()) {
-                    gotoDetailGridActivity(i);
-                } else {
-                    int pos = getThemeIndex(search, i);
-                    if (pos != -1) {
-                        gotoDetailGridActivity(pos);
-                    }
+        adapter = new ThemeListAdapter(getActivity(), themeList, footer);
+        adapter.setOnRecycleViewItemClickListener((view, i) -> {
+            if (search == null || search.isEmpty()) {
+                gotoDetailGridActivity(i);
+            } else {
+                int pos = getThemeIndex(search, i);
+                if (pos != -1) {
+                    gotoDetailGridActivity(pos);
                 }
             }
         });
+
         alphaAdapter = ListAnimationUtil.addAlphaAnim(adapter);
         listView.setAdapter(alphaAdapter);
         listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
-                int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
-                if (!isLoading && themelist == adapter.getList()) {
-                    //filter dont show footer view and not loading more items
-                    //((View) footer.getParent()).setVisibility(View.VISIBLE);
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                if (!isLoading && themeList == adapter.getList()) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         L.e("start loadmre");
                         loadData(LoadModel.loadmore);
 
@@ -266,23 +196,23 @@ public class ThemeListFragment extends BaseFragment {
 
     private int getThemeIndex(String search, int pos) {
         int index = 0;
-        for (int i = 0; i < themelist.size(); i++) {
-            if (themelist.get(i).getN().contains(search)) {
+        for (int i = 0; i < themeList.size(); i++) {
+            if (themeList.get(i).getN().contains(search)) {
                 if (pos == index) {
                     return i;
                 }
                 index++;
             }
         }
+
         return -1;
     }
 
     private void gotoDetailGridActivity(int i) {
-        //UmengUtil.analysitic(getActivity(), UmengUtil.THEMENAME, themelist.get(i).getN());
         Intent intent = new Intent(getActivity(), GridViewActivity.class);
-        intent.putExtra(MyApplication.THEMEID, themelist.get(i).getC());
-        intent.putExtra(MyApplication.THEMENAME, themelist.get(i).getN());
-        intent.putExtra(MyApplication.FOLDERIMG, themelist.get(i).getFolder()); // add
+        intent.putExtra(MyApplication.THEMEID, themeList.get(i).getC());
+        intent.putExtra(MyApplication.THEMENAME, themeList.get(i).getN());
+        intent.putExtra(MyApplication.FOLDERIMG, themeList.get(i).getFolder());
         startActivity(intent);
     }
 
@@ -290,21 +220,21 @@ public class ThemeListFragment extends BaseFragment {
         try {
             ((View) footer.getParent()).setVisibility(View.GONE);
             search = filterStr;
-            List<ThemeBean.Theme> filterDateList = new ArrayList<ThemeBean.Theme>();
+            List<ThemeBean.Theme> filterDateList = new ArrayList<>();
             if (filterStr.isEmpty()) {
                 refreshLayout.setEnabled(true);
-                filterDateList = themelist;
+                filterDateList = themeList;
             } else {
                 refreshLayout.setEnabled(false);
                 filterDateList.clear();
-                for (ThemeBean.Theme theme : themelist) {
+                for (ThemeBean.Theme theme : themeList) {
                     if (theme.getN().toLowerCase(Locale.getDefault()).contains(filterStr.toLowerCase(Locale.getDefault())))
                         filterDateList.add(theme);
                 }
             }
             adapter.updateListView(filterDateList);
             alphaAdapter.notifyDataSetChanged();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -320,6 +250,4 @@ public class ThemeListFragment extends BaseFragment {
         loadmore,
         nochange,
     }
-
-
 }

@@ -3,6 +3,7 @@ package org.fifthgen.colouringbooks.model.bean;
 /**
  * Created by GameGFX Studio on 2015/9/9.
  */
+@SuppressWarnings("unused")
 public class CacheImageBean {
     String url;
     float wvHRadio;

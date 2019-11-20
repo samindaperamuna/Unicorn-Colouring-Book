@@ -2,7 +2,6 @@ package org.fifthgen.colouringbooks.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -16,9 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.fifthgen.colouringbooks.R;
 import org.fifthgen.colouringbooks.util.DensityUtil;
 
+import java.util.Objects;
+
 /**
  * Created by macpro001 on 30/5/15.
  */
+@SuppressWarnings("WeakerAccess")
 public class MyDialogStyle {
     public static final int POPSTYLE = R.style.MyDialogPop;
     protected Dialog dialog;
@@ -27,20 +29,15 @@ public class MyDialogStyle {
     /**
      * randomly choose a animation
      *
-     * @param context
+     * @param context Application context.
      */
     public MyDialogStyle(Context context) {
         this.context = context;
         dialog = new Dialog(context, POPSTYLE);
-        dialog.getWindow()
+        Objects.requireNonNull(dialog.getWindow())
                 .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                MyProgressDialog.DismissDialog();
-            }
-        });
+        dialog.setOnDismissListener(dialog -> MyProgressDialog.DismissDialog());
     }
 
     public void dismissDialog(Dialog.OnDismissListener onCancelListener) {
@@ -56,6 +53,7 @@ public class MyDialogStyle {
         }
     }
 
+    @SuppressWarnings("unused")
     public void reShowDialog() {
         if (!((AppCompatActivity) context).isFinishing()) {
             if (dialog != null && !dialog.isShowing()) {
@@ -78,12 +76,12 @@ public class MyDialogStyle {
         dialog.setContentView(detail_layout);
         TextView content = detail_layout.findViewById(R.id.content);
         TextView title = detail_layout.findViewById(R.id.title);
+
         if (title != null) {
             title.setText(titlestr);
             title.setVisibility(View.VISIBLE);
-        } else {
-            title.setVisibility(View.GONE);
         }
+
         content.setText(Content);
         Button button1 = detail_layout.findViewById(R.id.button1);
         button1.setText(btntext1);
@@ -93,9 +91,7 @@ public class MyDialogStyle {
 
     public void showTwoButtonDialog(CharSequence Content, String btntext1, String btntext2, View.OnClickListener listener1, View.OnClickListener listener2, boolean cancelable) {
         dialog.setCancelable(cancelable);
-        View detail_layout = View.inflate(
-                context,
-                R.layout.dialog_two_button, null);
+        View detail_layout = View.inflate(context, R.layout.dialog_two_button, null);
         dialog.setContentView(detail_layout);
         TextView content = detail_layout.findViewById(R.id.content);
         content.setText(Content);
@@ -110,18 +106,16 @@ public class MyDialogStyle {
 
     public void showBlankDialog(String titlestr, String btntext1, View.OnClickListener listener1, boolean cancelable, View view) {
         dialog.setCancelable(cancelable);
-        View detail_layout = View.inflate(
-                context,
-                R.layout.dialog_blank, null);
+        View detail_layout = View.inflate(context, R.layout.dialog_blank, null);
         dialog.setContentView(detail_layout);
         TextView title = detail_layout.findViewById(R.id.title);
         FrameLayout frameLayout = detail_layout.findViewById(R.id.customcontent);
+
         if (title != null) {
             title.setText(titlestr);
             title.setVisibility(View.VISIBLE);
-        } else {
-            title.setVisibility(View.GONE);
         }
+
         frameLayout.addView(view);
         Button button1 = detail_layout.findViewById(R.id.button1);
         button1.setText(btntext1);
@@ -130,12 +124,7 @@ public class MyDialogStyle {
     }
 
     public void showBlankDialog(String titlestr, View view) {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismissDialog();
-            }
-        };
+        View.OnClickListener listener = view1 -> dismissDialog();
         showBlankDialog(titlestr, context.getString(R.string.ok), listener, true, view);
     }
 
@@ -144,11 +133,10 @@ public class MyDialogStyle {
     }
 
 
+    @SuppressWarnings("SameParameterValue")
     protected void showTwoImageDialog(StringBuffer buffer, Drawable resId1, String s1, Drawable resId2, String s2, View.OnClickListener listener1, View.OnClickListener listener2, boolean b) {
         dialog.setCancelable(b);
-        View detail_layout = View.inflate(
-                context,
-                R.layout.dialog_two_button, null);
+        View detail_layout = View.inflate(context, R.layout.dialog_two_button, null);
         dialog.setContentView(detail_layout);
         TextView content = detail_layout.findViewById(R.id.content);
         content.setText(buffer);

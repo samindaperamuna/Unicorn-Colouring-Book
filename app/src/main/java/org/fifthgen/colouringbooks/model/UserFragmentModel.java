@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -16,7 +17,9 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/9/1.
  */
+@SuppressWarnings({"WeakerAccess"})
 public class UserFragmentModel {
+    @SuppressLint("StaticFieldLeak")
     private static UserFragmentModel ourInstance;
     Context context;
     AsyncTask asyncTask;
@@ -42,6 +45,7 @@ public class UserFragmentModel {
         asyncTask.execute(onLoadCacheImageListener, context);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class LoadLocalPaintsAsyn extends AsyncTask {
         OnLoadUserPaintListener onLoadUserPaintListener;
 
@@ -62,6 +66,7 @@ public class UserFragmentModel {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class LoadCacheImagesAsyn extends AsyncTask {
         OnLoadCacheImageListener onLoadCacheImageListener;
         Context context;

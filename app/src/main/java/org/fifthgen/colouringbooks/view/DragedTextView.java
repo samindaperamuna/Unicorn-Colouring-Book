@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -8,7 +9,6 @@ import android.view.MotionEvent;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class DragedTextView extends AppCompatTextView {
-    private static final String TAG = "qt";
     private int mPreviousx = 0;
     private int mPreviousy = 0;
     // a array for save the drag position
@@ -26,6 +26,7 @@ public class DragedTextView extends AppCompatTextView {
         super(context, attribute, style);
     }
 
+    @SuppressWarnings("unused")
     public int[] getCurrentLayout() {
         return mCurrentLayout;
     }
@@ -37,6 +38,7 @@ public class DragedTextView extends AppCompatTextView {
             layout(mCurrentLayout[0], mCurrentLayout[1], mCurrentLayout[2], mCurrentLayout[3]);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         final int iAction = event.getAction();
@@ -63,7 +65,6 @@ public class DragedTextView extends AppCompatTextView {
                 mPreviousy = iCurrenty - iDelty;
                 break;
             case MotionEvent.ACTION_UP:
-                break;
             case MotionEvent.ACTION_CANCEL:
                 break;
         }

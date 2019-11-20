@@ -10,14 +10,12 @@ import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
  */
 public class ListAnimationUtil {
 
-    public static RecyclerView.Adapter addScaleandAlphaAnim(RecyclerView.Adapter adapter) {
+    public static RecyclerView.Adapter addScaleAndAlphaAnim(RecyclerView.Adapter adapter) {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
-        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
-        return scaleAdapter;
+        return new ScaleInAnimationAdapter(alphaAdapter);
     }
 
     public static AlphaInAnimationAdapter addAlphaAnim(RecyclerView.Adapter adapter) {
-        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
-        return alphaAdapter;
+        return new AlphaInAnimationAdapter(adapter);
     }
 }

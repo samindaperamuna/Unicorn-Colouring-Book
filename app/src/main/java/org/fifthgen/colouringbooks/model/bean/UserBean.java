@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by GameGFX Studio on 2015/8/20.
  */
+@SuppressWarnings("unused")
 public class UserBean extends ResponseBean {
     @SerializedName("result")
     private User users;
@@ -44,11 +45,11 @@ public class UserBean extends ResponseBean {
             this.uid = uid;
         }
 
-        public String getUsericon() {
+        public String getUserIcon() {
             return usericon;
         }
 
-        public void setUsericon(String usericon) {
+        public void setUserIcon(String usericon) {
             this.usericon = usericon;
         }
 

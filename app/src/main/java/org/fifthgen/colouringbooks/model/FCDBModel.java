@@ -18,6 +18,7 @@ import org.fifthgen.colouringbooks.model.db.FCDBHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by GameGFX Studio on 2015/8/5.
@@ -112,44 +113,29 @@ public class FCDBModel {
         closeDBandCursor();
     }
 
-    public void deleteThisCategoryid(Context context, int categoryid, String fcimagetable) {
+    public void deleteThisCategoryid(Context context, int categoryid, String fcImageTable) {
         fcdbHelper = new FCDBHelper(context);
         db = fcdbHelper.getWritableDatabase();
-        db.delete(fcimagetable, FCDBHelper.FCIMAGETABLE_COL_0 + " = " + categoryid, null);
+        db.delete(fcImageTable, FCDBHelper.FCIMAGETABLE_COL_0 + " = " + categoryid, null);
         closeDBandCursor();
     }
-
-//    public void addMD5andHashCode(SQLiteDatabase sqLiteDatabase) {
-//        db = sqLiteDatabase;
-//        cursor = sqLiteDatabase.query(FCDBHelper.FCIMAGETABLE, null, null, null, null, null, null);
-//        if (cursor.                                                                                             getCount() == 0) {
-//            return;
-//        } else {
-//            Md5FileNameGenerator md5FileNameGenerator = new Md5FileNameGenerator();
-//            while (cursor.moveToNext()) {
-//                String url = String.format(MyApplication.ImageLageUrl, cursor.getInt(0), cursor.getInt(1));
-//                ContentValues values = new ContentValues();
-//                values.put(FCDBHelper.FCIMAGETABLE_COL_4, md5FileNameGenerator.generate(url));
-//                values.put(FCDBHelper.FCIMAGETABLE_COL_5, String.valueOf(url.hashCode()));
-//                db.update(FCDBHelper.FCIMAGETABLE, values, FCDBHelper.FCIMAGETABLE_COL_0 + "=" + cursor.getInt(0) + " and " + FCDBHelper.FCIMAGETABLE_COL_1 + "=" + cursor.getInt(1), null);
-//            }
-//        }
-//    }
 
     public List<CacheImageBean> readHaveCacheImages(Context context) {
         fcdbHelper = new FCDBHelper(context);
         db = fcdbHelper.getWritableDatabase();
         cursor = db.query(FCDBHelper.FCIMAGETABLE, null, null, null, null, null, null);
         List<CacheImageBean> cacheImageBeans = new ArrayList<>();
+
         if (cursor.getCount() == 0) {
             closeDBandCursor();
             return cacheImageBeans;
         } else {
             while (cursor.moveToNext()) {
-                String url = String.format(MyApplication.ImageLageUrl, cursor.getInt(0), cursor.getInt(1));
+                String url = String.format(Locale.getDefault(), MyApplication.ImageLargeUrl,
+                        cursor.getInt(0), cursor.getInt(1));
                 File file = DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache());
                 if (file != null && file.exists()) {
-                    Float aFloat = 0f;
+                    float aFloat = 0f;
                     try {
                         aFloat = cursor.getFloat(3);
                     } catch (Exception e) {

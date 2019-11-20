@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.controller.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import org.fifthgen.colouringbooks.listener.OnLoadCacheImageListener;
 import org.fifthgen.colouringbooks.listener.OnLoadUserPaintListener;
 import org.fifthgen.colouringbooks.listener.OnLoginSuccessListener;
 import org.fifthgen.colouringbooks.model.UserFragmentModel;
-import org.fifthgen.colouringbooks.model.bean.CacheImageBean;
 import org.fifthgen.colouringbooks.model.bean.LocalImageBean;
 import org.fifthgen.colouringbooks.model.bean.UserBean;
 import org.fifthgen.colouringbooks.util.L;
@@ -37,22 +37,32 @@ import butterknife.ButterKnife;
 /**
  * Created by GameGFX Studio on 2015/8/18.
  */
+@SuppressWarnings("unused")
 public class UserFragment extends BaseFragment implements OnLoginSuccessListener {
+
+    @SuppressLint("StaticFieldLeak")
     private static UserFragment fragment;
+
+    RecyclerView.Adapter adapter;
+    List<LocalImageBean> localImageBeans;
+
     @BindView(R.id.userpaintlist)
     EmptyRecyclerView userpaintlist;
+
     @BindView(R.id.swiperefresh)
     SwipeRefreshLayout refreshLayout;
-    RecyclerView.Adapter adapter;
+
+
     @BindView(R.id.emptylay_paintlist)
     LinearLayout emptylayPaintlist;
-    List<LocalImageBean> localImageBeans;
+
+
     @BindView(R.id.tab_imagecache)
     RadioButton tabImagecache;
+
     @BindView(R.id.tab_local)
     RadioButton tabLocal;
-    // @Bind(R.id.tab_cloud)
-    RadioButton tabCloud;
+
     @BindView(R.id.usertabs)
     RadioGroup usertabs;
 
@@ -88,108 +98,80 @@ public class UserFragment extends BaseFragment implements OnLoginSuccessListener
 
     private void addEvents() {
         swipeRefreshLayout = refreshLayout;
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                L.e("load");
-                if (usertabs.getCheckedRadioButtonId() == R.id.tab_local) {
-                    //change vertical recycleview to listview
-                    userpaintlist.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    //clear recycleview
-                    userpaintlist.setAdapter(new LocalPaintAdapter(getActivity(), localImageBeans));
-                    OnLoadUserPaintListener onLoadUserPaintListener = new OnLoadUserPaintListener() {
-                        @Override
-                        public void loadUserPaintFinished(List<LocalImageBean> list) {
-                            if (list != null) {
-                                localImageBeans = list;
-                                adapter = new LocalPaintAdapter(getActivity(), localImageBeans);
-                                userpaintlist.setAdapter(ListAnimationUtil.addScaleandAlphaAnim(adapter));
-                            }
-                            refreshLayout.setRefreshing(false);
-                        }
-                    };
-                    UserFragmentModel.getInstance(getActivity()).obtainLocalPaintList(onLoadUserPaintListener);
-                } else if (usertabs.getCheckedRadioButtonId() == R.id.tab_imagecache) {
-                    loadCacheImages();
-                } /*else if (usertabs.getCheckedRadioButtonId() == R.id.tab_cloud) {
-                    //load cloud paints
-                }*/
+        refreshLayout.setOnRefreshListener(() -> {
+            L.e("load");
+            if (usertabs.getCheckedRadioButtonId() == R.id.tab_local) {
+                // change vertical recycle view to list view
+                userpaintlist.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+                // clear recycle view
+                userpaintlist.setAdapter(new LocalPaintAdapter(getActivity(), localImageBeans));
+
+                OnLoadUserPaintListener onLoadUserPaintListener = list -> {
+                    if (list != null) {
+                        localImageBeans = list;
+                        adapter = new LocalPaintAdapter(getActivity(), localImageBeans);
+                        userpaintlist.setAdapter(ListAnimationUtil.addScaleAndAlphaAnim(adapter));
+                    }
+
+                    refreshLayout.setRefreshing(false);
+                };
+
+                UserFragmentModel.getInstance(getActivity()).obtainLocalPaintList(onLoadUserPaintListener);
+            } else if (usertabs.getCheckedRadioButtonId() == R.id.tab_imagecache) {
+                loadCacheImages();
             }
         });
-        usertabs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.tab_local) {
-                    loadLocalPaints();
-                } else if (i == R.id.tab_imagecache) {
-                    loadCacheImages();
-                } else {
-                    //load cloud paints
-                }
+
+        usertabs.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (i == R.id.tab_local) {
+                loadLocalPaints();
+            } else if (i == R.id.tab_imagecache) {
+                loadCacheImages();
             }
         });
-        /*tabCloud.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    if (MyApplication.user != null) {
-//                        return false;
-//                    } else {
-//                        myDialogFactory.showLoginDialog(UserFragment.this);
-//                        return true;
-//                    }
-//                }
-//                return false;
-                Toast.makeText(getActivity(), getString(R.string.comingsoon), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });*/
     }
 
     private void loadCacheImages() {
-        refreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(true);
-            }
-        });
-        //change vertical recycleview to gridview
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        userpaintlist.setLayoutManager(layoutManager);
-        //clear recycleview
-        userpaintlist.scrollToPosition(0);
-        userpaintlist.setAdapter(new CacheImageAdapter(getActivity(), new ArrayList<CacheImageBean>()));
-        //load cache paints
-        OnLoadCacheImageListener loadUserPaintListener = new OnLoadCacheImageListener() {
-            @Override
-            public void loadCacheImageSuccess(List<CacheImageBean> cacheImageBeans) {
-                refreshLayout.setRefreshing(false);
-                if (cacheImageBeans != null) {
-                    adapter = new CacheImageAdapter(getActivity(), cacheImageBeans);
-                    userpaintlist.setAdapter(ListAnimationUtil.addScaleandAlphaAnim(adapter));
-                }
-            }
+        refreshLayout.post(() -> refreshLayout.setRefreshing(true));
 
+        // Change vertical recycle view to grid view.
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+
+        userpaintlist.setLayoutManager(layoutManager);
+
+        // clear recycle view.
+        userpaintlist.scrollToPosition(0);
+        userpaintlist.setAdapter(new CacheImageAdapter(getActivity(), new ArrayList<>()));
+
+        // Load cache paints.
+        OnLoadCacheImageListener loadUserPaintListener = cacheImageBeans -> {
+            refreshLayout.setRefreshing(false);
+            if (cacheImageBeans != null) {
+                adapter = new CacheImageAdapter(getActivity(), cacheImageBeans);
+                userpaintlist.setAdapter(ListAnimationUtil.addScaleAndAlphaAnim(adapter));
+            }
         };
+
         UserFragmentModel.getInstance(getActivity()).obtainCacheImageList(getActivity(), loadUserPaintListener);
     }
 
     private void loadLocalPaints() {
-        //change vertical recycleview to listview
+        // change vertical recycle view to list view
         userpaintlist.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //clear recycleview
+
+        // clear recycle view
         userpaintlist.setAdapter(new LocalPaintAdapter(getActivity(), localImageBeans));
-        //load local paints
-        OnLoadUserPaintListener onLoadUserPaintListener = new OnLoadUserPaintListener() {
-            @Override
-            public void loadUserPaintFinished(List<LocalImageBean> list) {
-                if (list != null) {
-                    adapter = new LocalPaintAdapter(getActivity(), list);
-                    userpaintlist.setAdapter(adapter);
-                }
+
+        // Load local paints
+        OnLoadUserPaintListener onLoadUserPaintListener = list -> {
+            if (list != null) {
+                adapter = new LocalPaintAdapter(getActivity(), list);
+                userpaintlist.setAdapter(adapter);
             }
         };
+
         UserFragmentModel.getInstance(getActivity()).obtainLocalPaintList(onLoadUserPaintListener);
     }
 
@@ -197,8 +179,10 @@ public class UserFragment extends BaseFragment implements OnLoginSuccessListener
     @Override
     public void onResume() {
         super.onResume();
+
         L.e("resume  " + isAdded());
-        //awlays refreshlist when resume
+
+        // Always refresh list when resumed.
         if (isAdded()) {
             if (tabLocal.isChecked()) {
                 if (adapter != null)
@@ -211,15 +195,8 @@ public class UserFragment extends BaseFragment implements OnLoginSuccessListener
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        ButterKnife.unbind(this);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //UmengLoginUtil.getInstance().onActivityResult(requestCode, resultCode, data);
     }
 
     public void finish() {
@@ -229,6 +206,5 @@ public class UserFragment extends BaseFragment implements OnLoginSuccessListener
 
     @Override
     public void onLoginSuccess(UserBean userBean) {
-        //UmengLoginUtil.getInstance().loginSuccessEvent(getActivity(), userBean, myDialogFactory);
     }
 }

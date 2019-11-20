@@ -18,25 +18,31 @@ import org.fifthgen.colouringbooks.MyApplication;
 import org.fifthgen.colouringbooks.R;
 import org.fifthgen.colouringbooks.model.OnRecycleViewItemClickListener;
 import org.fifthgen.colouringbooks.model.bean.ThemeBean;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by GameGFX Studio on 2015/8/14.
  */
 public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private final int TYPE_ITEM = 1;
     private final int TYPE_FOOTER = 2;
+
+    List<ThemeBean.Theme> themeList;
+
     Context context;
     FrameLayout footer;
-    List<ThemeBean.Theme> themelist;
     private OnRecycleViewItemClickListener onRecycleViewItemClickListener;
 
-    public ThemeListAdapter(Context context, List<ThemeBean.Theme> themelist, View footer) {
+    public ThemeListAdapter(Context context, List<ThemeBean.Theme> themeList, View footer) {
         this.context = context;
-        this.themelist = themelist;
+        this.themeList = themeList;
         this.footer = (FrameLayout) footer.getParent();
     }
 
@@ -46,80 +52,76 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position == themelist.size()) {
+        if (position == themeList.size()) {
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
     }
 
+    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = null;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            v = LayoutInflater.from(context)
-                    .inflate(R.layout.view_list_item, parent, false);
+            View v = LayoutInflater.from(context).inflate(R.layout.view_list_item, parent, false);
             return new VHItem(v);
-        } else if (viewType == TYPE_FOOTER) {
-            return new VHFooter(footer);
         }
-        return null;
+
+        return new VHFooter(footer);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof VHItem) {
-            if (themelist.get(position) != null) {
-                ((VHItem) holder).name.setText(themelist.get(position).getN());
-                /*if (themelist.get(position).getC() == -1) {
-                    ((VHItem) holder).image.setImageResource(MyApplication.THUMBIMAGE);
-                } else {
-                    AsynImageLoader.showImageAsyn(((VHItem) holder).image, String.format(MyApplication.ThemeThumbUrl, themelist.get(position).getC()));
-                    //load image
-                }*/
+            if (themeList.get(position) != null) {
+                ((VHItem) holder).name.setText(themeList.get(position).getN());
 
                 try {
                     AssetManager assetManager = ((VHItem) holder).parent.getContext().getAssets();
-                    String ar = assetManager.list(MyApplication.PATHIMG + themelist.get(position).getFolder())[0];
-                    InputStream ims = assetManager.open(MyApplication.PATHIMG + themelist.get(position).getFolder() + "/" + ar); // first image
-                    Bitmap bitmap = BitmapFactory.decodeStream(ims);
-                    //Drawable t = Draw
-                    ((VHItem) holder).image.setImageBitmap(bitmap);
+                    String ar = Objects.requireNonNull(assetManager
+                            .list(String.format(Locale.getDefault(), "%s%s",
+                                    MyApplication.PATHIMG, themeList.get(position).getFolder())))[0];
 
+                    // First image.
+                    InputStream ims = assetManager.open(String.format(Locale.getDefault(),
+                            "%s%s/%s", MyApplication.PATHIMG,
+                            themeList.get(position).getFolder(), ar));
+
+                    Bitmap bitmap = BitmapFactory.decodeStream(ims);
+
+                    ((VHItem) holder).image.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-
-                ((VHItem) holder).parent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (onRecycleViewItemClickListener != null)
-                            onRecycleViewItemClickListener.recycleViewItemClickListener(((VHItem) holder).parent, position);
-                    }
+                ((VHItem) holder).parent.setOnClickListener(view -> {
+                    if (onRecycleViewItemClickListener != null)
+                        onRecycleViewItemClickListener
+                                .recycleViewItemClickListener(((VHItem) holder).parent, position);
                 });
             }
         } else if (holder instanceof VHFooter) {
-            ((VHFooter) holder).footer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            ((VHFooter) holder).footer.setLayoutParams(
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return themelist.size() + 1;
+        return themeList.size() + 1;
     }
 
     public List<ThemeBean.Theme> getList() {
-        return themelist;
+        return themeList;
     }
 
     public void updateListView(List<ThemeBean.Theme> list) {
-        this.themelist = list;
+        this.themeList = list;
         notifyDataSetChanged();
     }
 
     static class VHItem extends RecyclerView.ViewHolder {
-
         public ImageView image;
         public TextView name;
         public View parent;
@@ -130,7 +132,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             name = itemView.findViewById(R.id.name);
             parent = itemView;
         }
-
     }
 
     class VHFooter extends RecyclerView.ViewHolder {

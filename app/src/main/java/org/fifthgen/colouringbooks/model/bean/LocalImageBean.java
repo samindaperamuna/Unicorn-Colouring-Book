@@ -3,6 +3,7 @@ package org.fifthgen.colouringbooks.model.bean;
 /**
  * Created by GameGFX Studio on 2015/9/1.
  */
+@SuppressWarnings("unused")
 public class LocalImageBean {
     private String imageName;
     private String imageUrl;

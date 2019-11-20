@@ -12,8 +12,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() instanceof AppCompatBaseAcitivity) {
-            ((AppCompatBaseAcitivity) getActivity()).setmSwipeRefreshLayout(swipeRefreshLayout);
+        if (getActivity() instanceof AppCompatBaseActivity) {
+            ((AppCompatBaseActivity) getActivity()).setmSwipeRefreshLayout(swipeRefreshLayout);
         }
     }
 }

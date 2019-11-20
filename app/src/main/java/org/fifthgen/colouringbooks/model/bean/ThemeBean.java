@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/8/12.
  */
+@SuppressWarnings("unused")
 public class ThemeBean extends ResponseBean {
     @SerializedName("result")
     private List<Theme> themes;

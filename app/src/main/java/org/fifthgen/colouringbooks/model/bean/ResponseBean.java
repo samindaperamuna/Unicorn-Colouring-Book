@@ -3,6 +3,7 @@ package org.fifthgen.colouringbooks.model.bean;
 /**
  * Created by GameGFX Studio on 2015/9/21.
  */
+@SuppressWarnings("unused")
 public class ResponseBean {
     protected String errorCode;
     protected String message;

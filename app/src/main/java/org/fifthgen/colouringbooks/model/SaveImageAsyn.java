@@ -13,6 +13,7 @@ import java.io.IOException;
 /**
  * Created by GameGFX Studio on 2015/8/4.
  */
+@SuppressWarnings("ALL")
 public class SaveImageAsyn extends AsyncTask {
 
     private OnSaveFinishListener onSaveFinishListener;

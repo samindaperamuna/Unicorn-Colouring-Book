@@ -15,6 +15,7 @@ import org.fifthgen.colouringbooks.R;
 /**
  * Created by GameGFX Studio on 2015/8/11.
  */
+@SuppressWarnings("unused")
 public class AnimateFactory {
     private static AnimateFactory animateFactory;
 
@@ -39,6 +40,7 @@ public class AnimateFactory {
         return rotateAnimation;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void SlideOutUpAnimation(View... view) {
         for (final View v : view) {
             if (v.getVisibility() == View.VISIBLE) {
@@ -85,7 +87,6 @@ public class AnimateFactory {
     }
 
     public Animation popupAnimation(Context context) {
-        Animation scaleAnimation = AnimationUtils.loadAnimation(context, R.anim.pop_show_overshoot);
-        return scaleAnimation;
+        return AnimationUtils.loadAnimation(context, R.anim.pop_show_overshoot);
     }
 }

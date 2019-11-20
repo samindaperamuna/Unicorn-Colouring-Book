@@ -51,22 +51,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoActionBar" />
 
-        <!-- UMENG ANALYSIS-->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="@string/UMENGAPPKEY" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="@string/CHANNEL" />
-        <!-- UMENG PUSH-->
-        <meta-data
-            android:name="UMENG_MESSAGE_SECRET"
-            android:value="a6df26ee856d8ecf8711ed4296383401" />
-
         <!-- ADMOB -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-5247973607982667~2117166723" />
 
         <uses-library
             android:name="org.apache.http.legacy"

@@ -20,7 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings({"WeakerAccess", "CanBeFinal"})
 public class ImageLoaderUtil {
+
     public static ImageLoader imageLoader = ImageLoader.getInstance();
 
     private ImageLoaderUtil() {
@@ -31,91 +33,83 @@ public class ImageLoaderUtil {
     }
 
     public static DisplayImageOptions DetailImageOptionsNoCache() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.blank)
                 .showImageForEmptyUri(R.mipmap.blank)
                 .showImageOnFail(R.mipmap.blank).cacheInMemory(false)
                 .cacheOnDisk(false).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .imageScaleType(ImageScaleType.NONE).build();
-        return options;
     }
 
     public static DisplayImageOptions getOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(getRandomColorDrawable())
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(false)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions getNoCacheOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(getRandomColorDrawable())
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(false)
                 .cacheOnDisk(false).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions getOpenAllCacheOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(getRandomColorDrawable())
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(true)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions getOptions(Drawable loadingdrawable) {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(loadingdrawable)
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(true)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions getNoCacheOptions(Drawable loadingdrawable) {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(loadingdrawable)
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(false)
                 .cacheOnDisk(false).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions getOpenAllCacheOptions(Drawable loadingdrawable) {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(loadingdrawable)
                 .showImageForEmptyUri(R.mipmap.loading14)
                 .showImageOnFail(R.mipmap.loading14).cacheInMemory(true)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY).build();
-        return options;
     }
 
     public static DisplayImageOptions DetailImageOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        return new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.blank)
                 .showImageForEmptyUri(R.mipmap.blank)
                 .showImageOnFail(R.mipmap.blank).cacheInMemory(false)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .imageScaleType(ImageScaleType.NONE).build();
-        return options;
     }
 
     private static Drawable getRandomColorDrawable() {
@@ -126,11 +120,9 @@ public class ImageLoaderUtil {
         return drawable;
     }
 
-    public static class AnimateFirstDisplayListener extends
-            SimpleImageLoadingListener {
+    public static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
-        static final List<String> displayedImages = Collections
-                .synchronizedList(new LinkedList<String>());
+        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<>());
 
         @Override
         public void onLoadingComplete(String imageUri, View view,
@@ -150,5 +142,4 @@ public class ImageLoaderUtil {
             }
         }
     }
-
 }

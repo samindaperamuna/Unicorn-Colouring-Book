@@ -9,6 +9,7 @@ import org.fifthgen.colouringbooks.util.L;
 /**
  * Created by GameGFX Studio on 2015/8/5.
  */
+@SuppressWarnings("unused")
 public class FCDBHelper extends SQLiteOpenHelper {
     public static final String FCTABLE = "fc_table";
     public static final String FCIMAGETABLE = "fc_imagetable";
@@ -19,8 +20,6 @@ public class FCDBHelper extends SQLiteOpenHelper {
     public static final String FCIMAGETABLE_COL_1 = "pic_id";
     public static final String FCIMAGETABLE_COL_2 = "Status";
     public static final String FCIMAGETABLE_COL_3 = "WvHRadio";
-    public static final String FCIMAGETABLE_COL_4 = "URL_MD5";
-    public static final String FCIMAGETABLE_COL_5 = "URL_HashCode";
     private static final String DBNAME = "fillcolor.db";
     private static final int version = 5;
 
@@ -58,18 +57,13 @@ public class FCDBHelper extends SQLiteOpenHelper {
             case 3:
             case 4:
                 L.e("upgrade to" + i);
+
                 try {
                     sqLiteDatabase.execSQL("ALTER TABLE " + FCIMAGETABLE + " ADD COLUMN " +
                             FCIMAGETABLE_COL_3 + " REAL;");
                 } catch (Exception e) {
                     L.e(e.toString());
                 }
-//            case 5:
-//                sqLiteDatabase.execSQL("ALTER TABLE " + FCIMAGETABLE + " ADD COLUMN " +
-//                        FCIMAGETABLE_COL_4 + " varchar(100);");
-//                sqLiteDatabase.execSQL("ALTER TABLE " + FCIMAGETABLE + " ADD COLUMN " +
-//                        FCIMAGETABLE_COL_5 + " varchar(100);");
-//                FCDBModel.getInstance().addMD5andHashCode(sqLiteDatabase);
         }
     }
 }

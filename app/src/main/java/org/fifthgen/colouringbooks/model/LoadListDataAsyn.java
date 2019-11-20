@@ -20,27 +20,32 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/8/4.
  */
+@SuppressWarnings("CanBeFinal")
 public class LoadListDataAsyn extends AsyncTask {
 
     List<ThemeBean.Theme> themeList;
-    Context context;
     private OnThemeListLoadListener onThemeListLoadListener;
     private String PageId = "pageid";
 
     @Override
     protected Object doInBackground(Object[] objects) {
+        Context context = null;
+
         try {
             int page = (int) objects[0];
+
             if (objects[1] != null && objects[1] instanceof Context) {
                 context = (Context) objects[1];
             }
+
             MyHttpClient myHttpClient = new MyHttpClient();
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair(PageId, String.valueOf(page)));
             String ret = myHttpClient.executePostRequest(MyApplication.ThemeListUrl, params);
             Gson gson = new Gson();
             themeList = gson.fromJson(ret, ThemeBean.class).getThemes();
-            //save to db
+
+            // Save to database.
             if (themeList != null) {
                 if (context != null) {
                     FCDBModel.getInstance().insertNewThemes(context, themeList);
@@ -48,13 +53,13 @@ public class LoadListDataAsyn extends AsyncTask {
             } else {
                 return "FAILED";
             }
+
             return "SUCCESS";
         } catch (Exception e) {
             L.e(e.toString());
             return "FAILED";
         }
     }
-
 
     @Override
     protected void onPostExecute(Object o) {

@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.fifthgen.colouringbooks.util.ImageLoaderUtil;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class AsynImageLoader {
 
     private static OnClearCacheFinishListener onClearCacheFinishListener;
@@ -68,13 +69,13 @@ public class AsynImageLoader {
                 imageLoadingListener);
     }
 
-    public static void showLagreImageAsynWithAllCacheOpen(ImageView imageView, String url, ImageLoadingListener listener) {
+    public static void showLargeImageAsynWithAllCacheOpen(ImageView imageView, String url, ImageLoadingListener listener) {
         ImageLoaderUtil.getInstance().displayImage(url, imageView,
                 ImageLoaderUtil.DetailImageOptions(),
                 listener);
     }
 
-    public static void showLagreImageAsynWithNoCacheOpen(ImageView imageView, String url, ImageLoadingListener listener) {
+    public static void showLargeImageAsynWithNoCacheOpen(ImageView imageView, String url, ImageLoadingListener listener) {
         ImageLoaderUtil.getInstance().displayImage(url, imageView,
                 ImageLoaderUtil.DetailImageOptionsNoCache(),
                 listener);

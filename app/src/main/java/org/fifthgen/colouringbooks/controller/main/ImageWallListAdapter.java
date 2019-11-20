@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.fifthgen.colouringbooks.R;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +19,25 @@ import java.util.List;
 /**
  * Created by GameGFX Studio on 2015/8/20.
  */
+@SuppressWarnings("unused")
 public class ImageWallListAdapter extends RecyclerView.Adapter<ImageWallListAdapter.ViewHolder> {
 
-    List<String> imagewall;
+    List<String> imageWall;
     private Context mContext;
 
-    public ImageWallListAdapter(Context context, List<String> imagewall) {
+    public ImageWallListAdapter(Context context, List<String> imageWall) {
         mContext = context;
-        if (imagewall != null) {
-            this.imagewall = imagewall;
+
+        if (imageWall != null) {
+            this.imageWall = imageWall;
         } else {
-            this.imagewall = new ArrayList<>();
+            this.imageWall = new ArrayList<>();
         }
     }
 
+    @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext)
                 .inflate(R.layout.view_imagewall_item, parent, false);
 
@@ -41,33 +45,31 @@ public class ImageWallListAdapter extends RecyclerView.Adapter<ImageWallListAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
 
     }
 
     @Override
     public int getItemCount() {
-        return imagewall.size();
+        return imageWall.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView imagename;
+        TextView imageName;
         TextView author;
         ImageView image;
         Button like;
-        Button dontlike;
+        Button dontLike;
         Button comment;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imagename = itemView.findViewById(R.id.imagename);
+            imageName = itemView.findViewById(R.id.imagename);
             author = itemView.findViewById(R.id.author);
             image = itemView.findViewById(R.id.image);
             like = itemView.findViewById(R.id.like);
-            dontlike = itemView.findViewById(R.id.dontlike);
+            dontLike = itemView.findViewById(R.id.dontlike);
             comment = itemView.findViewById(R.id.comment);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +13,9 @@ import java.io.File;
  * Created by GameGFX Studio on 2015/8/4.
  */
 public class ShareImageUtil {
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
+    @SuppressLint("StaticFieldLeak")
     private static ShareImageUtil shareImageUtil;
 
     private ShareImageUtil() {

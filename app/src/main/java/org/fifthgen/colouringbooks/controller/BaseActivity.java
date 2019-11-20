@@ -1,5 +1,6 @@
 package org.fifthgen.colouringbooks.controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.IBinder;
 import android.view.MotionEvent;
@@ -15,19 +16,13 @@ import org.fifthgen.colouringbooks.util.L;
 /**
  * Created by macpro001 on 4/8/15.
  */
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
         super.onResume();
         MyApplication.initLanguage(this);
-        //UmengUtil.analysisOnResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //UmengUtil.analysisOnPause(this);
     }
 
     @Override
@@ -52,12 +47,12 @@ public class BaseActivity extends AppCompatActivity {
      * the coordinates, to determine whether to hide the keyboard, because no
      * need to hide when the user clicks the EditText
      *
-     * @param v
-     * @param event
-     * @return
+     * @param v     View object.
+     * @param event Motion event object.
+     * @return Whether the output should be hidden.
      */
     private boolean isShouldHideInput(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
+        if (v instanceof EditText) {
             int[] l = {0, 0};
             v.getLocationInWindow(l);
             int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
@@ -75,8 +70,10 @@ public class BaseActivity extends AppCompatActivity {
     private void hideSoftInput(IBinder token) {
         if (token != null) {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token,
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+            if (im != null) {
+                im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 

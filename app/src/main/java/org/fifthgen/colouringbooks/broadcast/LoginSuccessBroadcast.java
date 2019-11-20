@@ -6,6 +6,7 @@ import android.content.Intent;
 /**
  * Created by Swifty on 2015/10/3.
  */
+@SuppressWarnings("unused")
 public class LoginSuccessBroadcast {
     private static LoginSuccessBroadcast ourInstance = new LoginSuccessBroadcast();
 

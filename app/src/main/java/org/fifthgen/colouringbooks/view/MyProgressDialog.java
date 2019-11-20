@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import org.fifthgen.colouringbooks.R;
 
+import java.util.Objects;
+
 
 /**
  * Created by GameGFX Studio on 2015/5/29.
@@ -29,12 +31,9 @@ public class MyProgressDialog extends Dialog {
         dialog = new MyProgressDialog(context);
         dialog.setCancelable(cancelable);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View detail_layout = View.inflate(
-                context,
-                R.layout.progress_dialog, null);
+        View detail_layout = View.inflate(context, R.layout.progress_dialog, null);
         dialog.setContentView(detail_layout);
-        dialog.getWindow()
-                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         TextView textView = detail_layout.findViewById(R.id.progress_text);
         textView.setText(message);
         ImageView imageView = detail_layout.findViewById(R.id.progress);
@@ -43,16 +42,15 @@ public class MyProgressDialog extends Dialog {
         rocketAnimation.start();
         dialog.show();
         dialog.setOnCancelListener(cancelListener);
+
         return dialog;
     }
 
-    public static MyProgressDialog show(Context context, CharSequence title,
-                                        CharSequence message) {
+    public static MyProgressDialog show(Context context, CharSequence title, CharSequence message) {
         return show(context, title, message, false);
     }
 
-    public static MyProgressDialog show(Context context, CharSequence title,
-                                        CharSequence message, boolean cancelable) {
+    public static MyProgressDialog show(Context context, CharSequence title, CharSequence message, boolean cancelable) {
         return show(context, title, message, cancelable, null);
     }
 

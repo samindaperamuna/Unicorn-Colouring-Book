@@ -11,6 +11,7 @@ import org.fifthgen.colouringbooks.view.DragedTextView;
 /**
  * Created by macpro001 on 20/8/15.
  */
+@SuppressWarnings("unused")
 public class DragTextViewFactory {
     private static DragTextViewFactory ourInstance;
     public int HugeSize = 30;
@@ -27,13 +28,6 @@ public class DragTextViewFactory {
         return ourInstance;
     }
 
-    /**
-     * @param context
-     * @param words
-     * @param color
-     * @param size    sp
-     * @return
-     */
     public DragedTextView createUserWordTextView(Context context, String words, int color, int size) {
         DragedTextView dragedTextView = new DragedTextView(context);
         dragedTextView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));

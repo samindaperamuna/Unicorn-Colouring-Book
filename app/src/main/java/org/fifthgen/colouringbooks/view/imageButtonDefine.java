@@ -10,21 +10,21 @@ import android.widget.TextView;
 import org.fifthgen.colouringbooks.util.DensityUtil;
 
 
-public class ImageButton_define extends LinearLayout {
+@SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
+public class imageButtonDefine extends LinearLayout {
 
     private ImageView imageViewbutton;
 
     private TextView textView;
 
-    public ImageButton_define(Context context, AttributeSet attrs) {
+    public imageButtonDefine(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
+
         imageViewbutton = new ImageView(context, attrs);
         imageViewbutton.setPadding(DensityUtil.dip2px(context, 25), DensityUtil.dip2px(context, 3), DensityUtil.dip2px(context, 25), DensityUtil.dip2px(context, 3));
         imageViewbutton.setAdjustViewBounds(true);
         imageViewbutton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         textView = new TextView(context, attrs);
-        //水平居中
         textView.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
         textView.setTextSize(11);
         textView.setPadding(0, 0, 0, DensityUtil.dip2px(context, 3));
@@ -37,6 +37,7 @@ public class ImageButton_define extends LinearLayout {
 
     }
 
+    @SuppressWarnings("unused")
     public void setImageSrc(int drawableid) {
         imageViewbutton.setImageResource(drawableid);
     }

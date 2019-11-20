@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 /**
  * Created by GameGFX Studio on 2015/6/26.
  */
+@SuppressWarnings("unused")
 public class SharedPreferencesFactory {
     public static final String StackSize = "stack_max_size";
     public static final String CommentEnableKey = "comment_enable_key";
-    public static final String AddQQGroupEnable = "add_QQGroup_enable";
     public static final String PaintHint = "paint_hint1";
     public static final String PaintHint2 = "paint_hint2";
     public static final String SavedColor1 = "saved_color1";
@@ -38,14 +38,14 @@ public class SharedPreferencesFactory {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static void removeString(Context context, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(key);
-        editor.commit();
+        editor.apply();
     }
 
     public static String grabString(Context context, String key) {
@@ -72,7 +72,7 @@ public class SharedPreferencesFactory {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getInteger(Context context, String key) {
@@ -89,6 +89,6 @@ public class SharedPreferencesFactory {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
 }

@@ -19,42 +19,38 @@ import org.fifthgen.colouringbooks.listener.OnAddWordsSuccessListener;
 import org.fifthgen.colouringbooks.listener.OnChangeBorderListener;
 import org.fifthgen.colouringbooks.model.SaveImageAsyn;
 import org.fifthgen.colouringbooks.util.ShareImageUtil;
-import org.fifthgen.colouringbooks.view.DragedTextView;
-import org.fifthgen.colouringbooks.view.ImageButton_define;
 import org.fifthgen.colouringbooks.view.MyProgressDialog;
+import org.fifthgen.colouringbooks.view.imageButtonDefine;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-
-//import com.gamegfx.colmoana.util.UmengUtil;
 
 /**
  * Created by macpro001 on 20/8/15.
  */
 public class AdvancePaintActivity extends BaseActivity {
 
-    public static int Offest = MyApplication.screenWidth / 40;
     @BindView(R.id.addwords)
-    ImageButton_define addwords;
+    imageButtonDefine addwords;
     @BindView(R.id.addvoice)
     Button addvoice;
     @BindView(R.id.current_image)
     ImageView currentImage;
     @BindView(R.id.share)
-    ImageButton_define share;
+    imageButtonDefine share;
     @BindView(R.id.repaint)
-    ImageButton_define repaint;
+    imageButtonDefine repaint;
     @BindView(R.id.paintview)
     FrameLayout paintview;
     String imageUri;
     MyDialogFactory myDialogFactory;
     @BindView(R.id.addborder)
-    ImageButton_define addborder;
+    imageButtonDefine addborder;
     @BindView(R.id.border)
     ImageView border;
     @BindView(R.id.cloudgallery)
-    ImageButton_define cloudgallery;
+    imageButtonDefine cloudgallery;
     @BindView(R.id.cancel)
     Button cancel;
 
@@ -67,42 +63,12 @@ public class AdvancePaintActivity extends BaseActivity {
         myDialogFactory = new MyDialogFactory(AdvancePaintActivity.this);
         imageUri = getIntent().getStringExtra("imagepath");
         currentImage.setImageBitmap(BitmapFactory.decodeFile(imageUri));
-        addwords.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addwordsDialog();
-            }
-        });
-        addborder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addBorderDialog();
-            }
-        });
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareDrawable();
-            }
-        });
-        repaint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                repaintPictureDialog();
-            }
-        });
-        cloudgallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadImage();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        addwords.setOnClickListener(view -> addwordsDialog());
+        addborder.setOnClickListener(view -> addBorderDialog());
+        share.setOnClickListener(view -> shareDrawable());
+        repaint.setOnClickListener(view -> repaintPictureDialog());
+        cloudgallery.setOnClickListener(view -> uploadImage());
+        cancel.setOnClickListener(view -> finish());
     }
 
     private void uploadImage() {
@@ -117,60 +83,46 @@ public class AdvancePaintActivity extends BaseActivity {
     }
 
     private void repaintPictureDialog() {
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialogFactory.dismissDialog();
-                setResult(MyApplication.RepaintResult);
-                finish();
-            }
+        View.OnClickListener onClickListener = view -> {
+            myDialogFactory.dismissDialog();
+            setResult(MyApplication.RepaintResult);
+            finish();
         };
         myDialogFactory.showRepaintDialog(onClickListener);
     }
 
+    @SuppressWarnings({"deprecation"})
     private void shareDrawable() {
         paintview.setDrawingCacheEnabled(true);
-        //UmengUtil.analysitic(AdvancePaintActivity.this, UmengUtil.SHAREIMAGE, imageUri);
         paintview.destroyDrawingCache();
         paintview.buildDrawingCache();
         MyProgressDialog.show(AdvancePaintActivity.this, null, getString(R.string.savingimage));
         SaveImageAsyn saveImageAsyn = new SaveImageAsyn();
         saveImageAsyn.execute(paintview.getDrawingCache(), MyApplication.SHAREWORK);
-        saveImageAsyn.setOnSaveSuccessListener(new SaveImageAsyn.OnSaveFinishListener() {
-            @Override
-            public void onSaveFinish(String path) {
-                MyProgressDialog.DismissDialog();
-                if (path == null) {
-                    Toast.makeText(AdvancePaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AdvancePaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
-                    ShareImageUtil.getInstance(AdvancePaintActivity.this).shareImg(path);
-                }
+        saveImageAsyn.setOnSaveSuccessListener(path -> {
+            MyProgressDialog.DismissDialog();
+            if (path == null) {
+                Toast.makeText(AdvancePaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(AdvancePaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
+                ShareImageUtil.getInstance(AdvancePaintActivity.this).shareImg(path);
             }
         });
     }
 
     private void addwordsDialog() {
-        OnAddWordsSuccessListener addwordssuccess = new OnAddWordsSuccessListener() {
-            @Override
-            public void addWordsSuccess(DragedTextView dragedTextView) {
-                ((ViewGroup) currentImage.getParent()).addView(dragedTextView);
-            }
-        };
+        OnAddWordsSuccessListener addwordssuccess = dragedTextView -> ((ViewGroup) currentImage.getParent()).addView(dragedTextView);
         myDialogFactory.showAddWordsDialog(addwordssuccess);
     }
 
     private void addBorderDialog() {
-        OnChangeBorderListener addborderlistener = new OnChangeBorderListener() {
-            @Override
-            public void changeBorder(int drawableid, int pt, int pd, int pl, int pr) {
-                if (drawableid != 0) {
-                    border.setBackgroundResource(drawableid);
-                    currentImage.setPadding(pl, pt, pr, pd);
-                    currentImage.requestLayout();
-                }
-                paintview.requestLayout();
+        OnChangeBorderListener addborderlistener = (drawableid, pt, pd, pl, pr) -> {
+            if (drawableid != 0) {
+                border.setBackgroundResource(drawableid);
+                currentImage.setPadding(pl, pt, pr, pd);
+                currentImage.requestLayout();
             }
+            paintview.requestLayout();
         };
         myDialogFactory.showAddBorderDialog(addborderlistener);
     }

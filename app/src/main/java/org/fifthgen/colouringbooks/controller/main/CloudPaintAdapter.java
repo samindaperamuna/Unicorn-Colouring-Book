@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.fifthgen.colouringbooks.R;
 import org.fifthgen.colouringbooks.model.bean.LocalImageBean;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 /**
  * Created by GameGFX Studio on 2015/9/1.
  */
+@SuppressWarnings("unused")
 public class CloudPaintAdapter extends RecyclerView.Adapter<CloudPaintAdapter.ViewHolder> {
     List<LocalImageBean> localImageListBean;
     Context context;
@@ -25,8 +27,9 @@ public class CloudPaintAdapter extends RecyclerView.Adapter<CloudPaintAdapter.Vi
         this.context = context;
     }
 
+    @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.view_localimage_item, parent, false);
 
@@ -34,7 +37,7 @@ public class CloudPaintAdapter extends RecyclerView.Adapter<CloudPaintAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
 
     }
 
@@ -44,13 +47,11 @@ public class CloudPaintAdapter extends RecyclerView.Adapter<CloudPaintAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
         }
-
     }
 }

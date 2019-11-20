@@ -12,6 +12,7 @@ import org.fifthgen.colouringbooks.listener.OnUnLockImageSuccessListener;
 /**
  * Created by GameGFX Studio on 2015/7/3.
  */
+@SuppressWarnings({"WeakerAccess", "SpellCheckingInspection"})
 public class SNSUtil {
 
     public static void shareApp(Context context) {
@@ -57,6 +58,7 @@ public class SNSUtil {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void joinQQGroup(Context context) {
 
         if (!joinQQGroup(context, "7yxN_oUZcVfWCDOZqS8qvJkl0tgOKj3Q")) {

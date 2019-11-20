@@ -16,14 +16,17 @@ import org.fifthgen.colouringbooks.R;
 import org.fifthgen.colouringbooks.controller.paint.PaintActivity;
 import org.fifthgen.colouringbooks.model.AsynImageLoader;
 import org.fifthgen.colouringbooks.model.bean.LocalImageBean;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by GameGFX Studio on 2015/9/1.
  */
 public class LocalPaintAdapter extends RecyclerView.Adapter<LocalPaintAdapter.ViewHolder> {
+
     List<LocalImageBean> localImageListBean;
     Context context;
 
@@ -31,13 +34,15 @@ public class LocalPaintAdapter extends RecyclerView.Adapter<LocalPaintAdapter.Vi
         if (localImageListBean == null) {
             localImageListBean = new ArrayList<>();
         }
+
         this.localImageListBean = localImageListBean;
         this.context = context;
     }
 
 
+    @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.view_localimage_item, parent, false);
         return new ViewHolder(v);
@@ -45,22 +50,31 @@ public class LocalPaintAdapter extends RecyclerView.Adapter<LocalPaintAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        AsynImageLoader.showImageAsynWithoutCache(holder.image, "file://" + localImageListBean.get(position).getImageUrl());
-        holder.image.setLayoutParams(new LinearLayout.LayoutParams(MyApplication.getScreenWidth(context) / 5 * 3, (int) (MyApplication.getScreenWidth(context) / 5 * 3 / localImageListBean.get(position).getWvHRadio())));
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gotoPaintActivity("file://" + localImageListBean.get(position).getImageUrl(), localImageListBean.get(position).getImageName());
-            }
-        });
-        holder.lastModifyTime.setText(context.getString(R.string.lastModifty) + " " + localImageListBean.get(position).getLastModDate());
+        AsynImageLoader.showImageAsynWithoutCache(holder.image, String.format(Locale.getDefault(),
+                "file://%s", localImageListBean.get(position).getImageUrl()));
+
+        holder.image.setLayoutParams(new LinearLayout.
+                LayoutParams(MyApplication.getScreenWidth(context) / 5 * 3,
+                (int) (MyApplication.getScreenWidth(context) / 5 * 3 / localImageListBean
+                        .get(position).getWvHRadio())));
+
+        holder.image.setOnClickListener(view -> gotoPaintActivity(String.format(Locale.getDefault(),
+                "file://%s",
+                localImageListBean.get(position).getImageUrl()),
+                localImageListBean.get(position).getImageName()));
+
+        holder.lastModifyTime.setText(String.format(Locale.getDefault(),
+                "%s %s", context.getString(R.string.lastModifty),
+                localImageListBean.get(position).getLastModDate()));
     }
 
     private void gotoPaintActivity(String uri, String filename) {
+        int formatName = Integer.valueOf(filename.replace(".png", ""));
+
         Intent intent = new Intent(context, PaintActivity.class);
         intent.putExtra(MyApplication.BIGPICFROMUSER, uri);
-        int formatName = Integer.valueOf(filename.replace(".png", ""));
         intent.putExtra(MyApplication.BIGPICFROMUSERPAINTNAME, formatName);
+
         context.startActivity(intent);
     }
 
@@ -70,7 +84,6 @@ public class LocalPaintAdapter extends RecyclerView.Adapter<LocalPaintAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView image;
         TextView lastModifyTime;
 
@@ -79,6 +92,5 @@ public class LocalPaintAdapter extends RecyclerView.Adapter<LocalPaintAdapter.Vi
             image = itemView.findViewById(R.id.image);
             lastModifyTime = itemView.findViewById(R.id.lastModify);
         }
-
     }
 }

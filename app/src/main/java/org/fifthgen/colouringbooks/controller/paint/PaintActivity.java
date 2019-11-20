@@ -1,17 +1,16 @@
 package org.fifthgen.colouringbooks.controller.paint;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
@@ -43,22 +42,21 @@ import org.fifthgen.colouringbooks.util.ImageSaveUtil;
 import org.fifthgen.colouringbooks.util.L;
 import org.fifthgen.colouringbooks.util.ShareImageUtil;
 import org.fifthgen.colouringbooks.view.ColorPicker;
-import org.fifthgen.colouringbooks.view.ImageButton_define;
-import org.fifthgen.colouringbooks.view.ImageButton_define_secondLay;
-import org.fifthgen.colouringbooks.view.ImageCheckBox_define;
 import org.fifthgen.colouringbooks.view.MyProgressDialog;
-import org.fifthgen.colouringbooks.view.OnCheckedChangeListener;
+import org.fifthgen.colouringbooks.view.imageButtonDefine;
+import org.fifthgen.colouringbooks.view.imageButtonDefineSecondLay;
+import org.fifthgen.colouringbooks.view.imageCheckBoxDefine;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Objects;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import uk.co.senab.photoview.ColourImageView;
 import uk.co.senab.photoview.OnDrawLineListener;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-//import com.gamegfx.colmoana.util.UmengUtil;
-
-
+@SuppressWarnings("unused")
 public class PaintActivity extends BaseActivity implements View.OnClickListener {
 
     ColourImageView colourImageView;
@@ -67,9 +65,9 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     ImageView currentColor, cColor1, cColor2, cColor3, cColor4;
     ColorPicker colorPickerSeekBar, largecolorpicker;
     ImageView advanceColor;
-    ImageButton_define save, share, open, more, delete;
-    ImageButton_define_secondLay undo, redo;
-    ImageCheckBox_define pick, drawLine, jianbian_color;
+    imageButtonDefine save, share, more, delete;
+    imageButtonDefineSecondLay undo, redo;
+    imageCheckBoxDefine pick, drawLine, jianbian_color;
     String URL;
     int PAINTNAME;
     LinearLayout advanceLay, largecolorpickerlay;
@@ -120,7 +118,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     };
     private Bitmap cachedBitmap;
     private int isShowing = 2;
-    private boolean fromSDcard = false;
+    private boolean fromSDCard = false;
     private int isInterstial = 0; // count to show Interstial
     private InterstitialAd mInterstitialAd;
 
@@ -141,7 +139,6 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ActivityUtil.hideStatusBar(this);
         setContentView(R.layout.activity_paint);
 
         mInterstitialAd = new InterstitialAd(this);
@@ -151,14 +148,14 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         initViews();
         addEvents();
         if (getIntent().hasExtra(MyApplication.BIGPIC)) {
-            fromSDcard = false;
-            URL = getIntent().getExtras().getString(MyApplication.BIGPIC);
+            fromSDCard = false;
+            URL = Objects.requireNonNull(getIntent().getExtras()).getString(MyApplication.BIGPIC);
             loadLargeImage();
         } else if (getIntent().hasExtra(MyApplication.BIGPICFROMUSER)) {
-            fromSDcard = true;
-            URL = getIntent().getExtras().getString(MyApplication.BIGPICFROMUSER);
+            fromSDCard = true;
+            URL = Objects.requireNonNull(getIntent().getExtras()).getString(MyApplication.BIGPICFROMUSER);
             PAINTNAME = getIntent().getExtras().getInt(MyApplication.BIGPICFROMUSERPAINTNAME);
-            loadLargeImageFromSDcard();
+            loadLargeImageFromSDCard();
         } else {
             finish();
         }
@@ -169,7 +166,8 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    private void loadLargeImageFromSDcard() {
+    @SuppressLint("StaticFieldLeak")
+    private void loadLargeImageFromSDCard() {
         MyProgressDialog.show(this, null, getString(R.string.loadpicture));
         new AsyncTask() {
 
@@ -186,7 +184,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                AsynImageLoader.showLagreImageAsynWithNoCacheOpen(colourImageView, URL, new ImageLoadingListener() {
+                AsynImageLoader.showLargeImageAsynWithNoCacheOpen(colourImageView, URL, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String s, View view) {
 
@@ -208,7 +206,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
                         }
                         MyProgressDialog.DismissDialog();
                         //show advancelay
-                        advanceLaytoggle();
+                        advanceLayToggle();
                         showInterstials();
                     }
 
@@ -223,6 +221,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void loadLargeImage() {
         MyProgressDialog.show(this, null, getString(R.string.loadpicture));
         new AsyncTask() {
@@ -240,7 +239,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                AsynImageLoader.showLagreImageAsynWithAllCacheOpen(colourImageView, URL, new ImageLoadingListener() {
+                AsynImageLoader.showLargeImageAsynWithAllCacheOpen(colourImageView, URL, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String s, View view) {
 
@@ -249,7 +248,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onLoadingFailed(String s, View view, FailReason failReason) {
                         MyProgressDialog.DismissDialog();
-                        Log.e("fail", failReason.getCause().getMessage());
+                        Log.e("fail", Objects.requireNonNull(failReason.getCause().getMessage()));
                         Toast.makeText(PaintActivity.this, getString(R.string.loadpicturefailed), Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -261,12 +260,12 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
                         if (cachedBitmap != null) {
                             colourImageView.setImageBT(cachedBitmap);
                         } else {
-                            openSaveImage(ImageSaveUtil.convertImageLageUrl(URL).hashCode());
+                            openSaveImage(ImageSaveUtil.convertImageLargeUrl(URL).hashCode());
                             showHintDialog();
                         }
                         MyProgressDialog.DismissDialog();
                         //show advancelay
-                        advanceLaytoggle();
+                        advanceLayToggle();
 
                         showInterstials();
 
@@ -303,7 +302,6 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         undo = findViewById(R.id.undo);
         redo = findViewById(R.id.redo);
         save = findViewById(R.id.save);
-//        open = (ImageButton_define) findViewById(R.id.open);
         share = findViewById(R.id.share);
         more = findViewById(R.id.more);
         delete = findViewById(R.id.delete);
@@ -312,110 +310,76 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         jianbian_color = findViewById(R.id.jianbian_color);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addEvents() {
-        advanceColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                advanceLaytoggle();
+        advanceColor.setOnClickListener(view -> advanceLayToggle());
+
+        undo.setOnClickListener(view -> {
+
+            colourImageView.undo();
+            isInterstial++;
+
+            if (isInterstial == 4) {
+                // show ads.
+                isInterstial = 0;
+                showInterstials();
             }
         });
-        undo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                colourImageView.undo();
-                isInterstial++;
+        redo.setOnClickListener(view -> colourImageView.redo());
 
-                if (isInterstial == 4) {
-
-                    // show ads.
-                    isInterstial = 0;
-                    showInterstials();
-                }
-
-            }
-        });
-        redo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                colourImageView.redo();
-            }
-        });
         currentColor = cColor1;
+
         getSavedColors(cColor1, cColor2, cColor3, cColor4);
+
         cColor1.setOnClickListener(checkCurrentColor);
         cColor2.setOnClickListener(checkCurrentColor);
         cColor3.setOnClickListener(checkCurrentColor);
         cColor4.setOnClickListener(checkCurrentColor);
+
         changeCurrentColor(currentColor);
-        colorPickerSeekBar.setOnChangedListener(new ColorPicker.OnColorChangedListener() {
-            @Override
-            public void colorChangedListener(int color) {
-                changeCurrentColor(color);
+
+        colorPickerSeekBar.setOnChangedListener(this::changeCurrentColor);
+
+        colorPickerSeekBar.setOnTouchListener((view, motionEvent) -> {
+            int action = motionEvent.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    largecolorpickerlay.setVisibility(View.VISIBLE);
+                    largecolorpickerlay.startAnimation(AnimateFactory.getInstance().popupAnimation(PaintActivity.this));
+                case MotionEvent.ACTION_MOVE:
+                    largecolorpicker.setColor(colorPickerSeekBar.getColor());
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    largecolorpickerlay.setVisibility(View.GONE);
+                    break;
             }
-        });
-        colorPickerSeekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                int action = motionEvent.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        largecolorpickerlay.setVisibility(View.VISIBLE);
-                        largecolorpickerlay.startAnimation(AnimateFactory.getInstance().popupAnimation(PaintActivity.this));
-                    case MotionEvent.ACTION_MOVE:
-                        largecolorpicker.setColor(colorPickerSeekBar.getColor());
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        largecolorpickerlay.setVisibility(View.GONE);
-                        break;
-                }
-                return false;
-            }
+            return false;
         });
 
         colorPickerSeekBar.setColor(getResources().getColor(R.color.maincolor));
-        colourImageView.setOnRedoUndoListener(new ColourImageView.OnRedoUndoListener() {
-            @Override
-            public void onRedoUndo(int undoSize, int redoSize) {
-                if (undoSize != 0) {
-                    undo.setEnabled(true);
-                    undo.setImageSrc(R.drawable.blueundo);
-                } else {
-                    undo.setEnabled(false);
-                    undo.setImageSrc(R.drawable.greyundo);
-                }
-                if (redoSize != 0) {
-                    redo.setEnabled(true);
-                    redo.setImageSrc(R.drawable.blueredo);
-                } else {
-                    redo.setEnabled(false);
-                    redo.setImageSrc(R.drawable.greyredo);
-                }
+        colourImageView.setOnRedoUndoListener((undoSize, redoSize) -> {
+            if (undoSize != 0) {
+                undo.setEnabled(true);
+                undo.setImageSrc(R.drawable.blueundo);
+            } else {
+                undo.setEnabled(false);
+                undo.setImageSrc(R.drawable.greyundo);
+            }
+            if (redoSize != 0) {
+                redo.setEnabled(true);
+                redo.setImageSrc(R.drawable.blueredo);
+            } else {
+                redo.setEnabled(false);
+                redo.setImageSrc(R.drawable.greyredo);
             }
         });
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveToLocal();
-            }
-        });
-//        open.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (fromSDcard) {
-//                    openSaveImage(PAINTNAME);
-//                } else {
-//                    openSaveImage(ImageSaveUtil.convertImageLageUrl(URL).hashCode());
-//                }
-//            }
-//        });
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareImage();
-            }
-        });
+
+        save.setOnClickListener(view -> saveToLocal());
+
+        share.setOnClickListener(view -> shareImage());
+
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             for (int j = 0; j < ((TableRow) tableLayout.getChildAt(i)).getChildCount(); j++) {
                 if (((TableRow) tableLayout.getChildAt(i)).getChildAt(j) instanceof Button) {
@@ -423,93 +387,74 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         }
-        pick.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(View buttonView, boolean isChecked) {
-                if (isChecked) {
-                    drawLine.setChecked(false);
-                    myDialogFactory.showPickColorHintDialog();
-                    colourImageView.setModel(ColourImageView.Model.PICKCOLOR);
-                    colourImageView.setOnColorPickListener(new ColourImageView.OnColorPickListener() {
-                        @Override
-                        public void onColorPick(boolean status, int color) {
-                            if (status == true) {
-                                changeCurrentColor(color);
-                                pick.setChecked(false);
-                            } else {
-                                Toast.makeText(PaintActivity.this, getString(R.string.pickcolorerror), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    backToColorModel();
-                }
-            }
-        });
-        drawLine.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(View buttonView, boolean isChecked) {
-                if (isChecked) {
-                    pick.setChecked(false);
-                    myDialogFactory.showBuxianButtonClickDialog();
-                    colourImageView.setModel(ColourImageView.Model.DRAW_LINE);
-                    colourImageView.setOnDrawLineListener(new OnDrawLineListener() {
-                        @Override
-                        public void OnDrawFinishedListener(boolean drawed, int startX, int startY, int endX, int endY) {
-                            if (!drawed) {
-                                Toast.makeText(PaintActivity.this, getString(R.string.drawLineHint_finish), Toast.LENGTH_SHORT).show();
-                            } else {
-                                myDialogFactory.showBuxianNextPointSetDialog();
-                            }
-                        }
 
-                        @Override
-                        public void OnGivenFirstPointListener(int startX, int startY) {
-                            myDialogFactory.showBuxianFirstPointSetDialog();
-                        }
-
-                        @Override
-                        public void OnGivenNextPointListener(int endX, int endY) {
-
-                        }
-                    });
-                } else {
-                    colourImageView.clearPoints();
-                    backToColorModel();
-                }
-            }
-        });
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View.OnClickListener listener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        myDialogFactory.dismissDialog();
-                        repaint();
+        pick.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                drawLine.setChecked(false);
+                myDialogFactory.showPickColorHintDialog();
+                colourImageView.setModel(ColourImageView.Model.PICKCOLOR);
+                colourImageView.setOnColorPickListener((status, color) -> {
+                    if (status) {
+                        changeCurrentColor(color);
+                        pick.setChecked(false);
+                    } else {
+                        Toast.makeText(PaintActivity.this, getString(R.string.pickcolorerror), Toast.LENGTH_SHORT).show();
                     }
-                };
-                myDialogFactory.showRepaintDialog(listener);
-            }
-        });
-        more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoAdvancePaintActivity();
+                });
+            } else {
+                backToColorModel();
             }
         });
 
-        jianbian_color.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(View view, boolean checked) {
-                if (checked) {
-                    myDialogFactory.showGradualHintDialog();
-                    colourImageView.setModel(ColourImageView.Model.FILLGRADUALCOLOR);
-                    jianbian_color.setText(R.string.jianbian_color);
-                } else {
-                    colourImageView.setModel(ColourImageView.Model.FILLCOLOR);
-                    jianbian_color.setText(R.string.normal_color);
-                }
+        drawLine.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                pick.setChecked(false);
+                myDialogFactory.showBuxianButtonClickDialog();
+                colourImageView.setModel(ColourImageView.Model.DRAW_LINE);
+                colourImageView.setOnDrawLineListener(new OnDrawLineListener() {
+                    @Override
+                    public void OnDrawFinishedListener(boolean drawed, int startX, int startY, int endX, int endY) {
+                        if (!drawed) {
+                            Toast.makeText(PaintActivity.this, getString(R.string.drawLineHint_finish), Toast.LENGTH_SHORT).show();
+                        } else {
+                            myDialogFactory.showBuxianNextPointSetDialog();
+                        }
+                    }
+
+                    @Override
+                    public void OnGivenFirstPointListener(int startX, int startY) {
+                        myDialogFactory.showBuxianFirstPointSetDialog();
+                    }
+
+                    @Override
+                    public void OnGivenNextPointListener(int endX, int endY) {
+
+                    }
+                });
+            } else {
+                colourImageView.clearPoints();
+                backToColorModel();
+            }
+        });
+
+        delete.setOnClickListener(v -> {
+            View.OnClickListener listener = v1 -> {
+                myDialogFactory.dismissDialog();
+                repaint();
+            };
+            myDialogFactory.showRepaintDialog(listener);
+        });
+
+        more.setOnClickListener(v -> gotoAdvancePaintActivity());
+
+        jianbian_color.setOnCheckedChangeListener((view, checked) -> {
+            if (checked) {
+                myDialogFactory.showGradualHintDialog();
+                colourImageView.setModel(ColourImageView.Model.FILLGRADUALCOLOR);
+                jianbian_color.setText(R.string.jianbian_color);
+            } else {
+                colourImageView.setModel(ColourImageView.Model.FILLCOLOR);
+                jianbian_color.setText(R.string.normal_color);
             }
         });
     }
@@ -528,20 +473,17 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
 
     private void gotoAdvancePaintActivity() {
         L.e("advancepaint");
-        SaveImageAsyn.OnSaveFinishListener finishlistener = new SaveImageAsyn.OnSaveFinishListener() {
-            @Override
-            public void onSaveFinish(String path) {
-                MyProgressDialog.DismissDialog();
-                Intent intent = new Intent(PaintActivity.this, AdvancePaintActivity.class);
-                intent.putExtra("imagepath", path);
-                startActivityForResult(intent, MyApplication.PaintActivityRequest);
-            }
+        SaveImageAsyn.OnSaveFinishListener finishlistener = path -> {
+            MyProgressDialog.DismissDialog();
+            Intent intent = new Intent(PaintActivity.this, AdvancePaintActivity.class);
+            intent.putExtra("imagepath", path);
+            startActivityForResult(intent, MyApplication.PaintActivityRequest);
         };
-        saveToLocal(finishlistener);
 
+        saveToLocal(finishlistener);
     }
 
-    private void advanceLaytoggle() {
+    private void advanceLayToggle() {
         if (isShowing == 2) {
             advanceColor.setImageResource(R.drawable.hidebutton);
             AnimateFactory.getInstance().BounceInDownAnimation(advanceLay, findViewById(R.id.advancelay2), findViewById(R.id.colorpicklay));
@@ -566,67 +508,65 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     private void shareImage() {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        //UmengUtil.analysitic(PaintActivity.this, UmengUtil.SHAREIMAGE, URL);
         MyProgressDialog.show(PaintActivity.this, null, getString(R.string.savingimage));
         SaveImageAsyn saveImageAsyn = new SaveImageAsyn();
-        if (fromSDcard) {
+
+        if (fromSDCard) {
             saveImageAsyn.execute(colourImageView.getmBitmap(), PAINTNAME);
         } else {
-            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLageUrl(URL).hashCode());
+            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLargeUrl(URL).hashCode());
         }
-        saveImageAsyn.setOnSaveSuccessListener(new SaveImageAsyn.OnSaveFinishListener() {
-            @Override
-            public void onSaveFinish(String path) {
-                MyProgressDialog.DismissDialog();
-                if (path == null) {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
-                    ShareImageUtil.getInstance(PaintActivity.this).shareImg(path);
-                }
+
+        saveImageAsyn.setOnSaveSuccessListener(path -> {
+            MyProgressDialog.DismissDialog();
+
+            if (path == null) {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
+                ShareImageUtil.getInstance(PaintActivity.this).shareImg(path);
             }
         });
     }
 
     private void saveToLocal() {
-
-
-        //UmengUtil.analysitic(PaintActivity.this, UmengUtil.SAVEIMAGE, URL);
         MyProgressDialog.show(PaintActivity.this, null, getString(R.string.savingimage));
         SaveImageAsyn saveImageAsyn = new SaveImageAsyn();
-        if (fromSDcard) {
+
+        if (fromSDCard) {
             saveImageAsyn.execute(colourImageView.getmBitmap(), PAINTNAME);
         } else {
-            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLageUrl(URL).hashCode());
+            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLargeUrl(URL).hashCode());
         }
-        saveImageAsyn.setOnSaveSuccessListener(new SaveImageAsyn.OnSaveFinishListener() {
-            @Override
-            public void onSaveFinish(String path) {
-                MyProgressDialog.DismissDialog();
-                if (path == null) {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
-                }
+
+        saveImageAsyn.setOnSaveSuccessListener(path -> {
+            MyProgressDialog.DismissDialog();
+            if (path == null) {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void saveToLocal(SaveImageAsyn.OnSaveFinishListener onSaveFinishListener) {
-        //UmengUtil.analysitic(PaintActivity.this, UmengUtil.SAVEIMAGE, URL);
         MyProgressDialog.show(PaintActivity.this, null, getString(R.string.savingimage));
         SaveImageAsyn saveImageAsyn = new SaveImageAsyn();
-        if (fromSDcard) {
+
+        if (fromSDCard) {
             saveImageAsyn.execute(colourImageView.getmBitmap(), PAINTNAME);
         } else {
-            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLageUrl(URL).hashCode());
+            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLargeUrl(URL).hashCode());
         }
+
         saveImageAsyn.setOnSaveSuccessListener(onSaveFinishListener);
     }
 
     private void openSaveImage(int hashCode) {
         try {
-            String root = Environment.getExternalStorageDirectory().getPath() + "/MyFCWorks/";
+            File extDir = this.getApplicationContext().getExternalFilesDir(null);
+            String root = String.format("%s/MyFCWorks/", Objects.requireNonNull(extDir).getPath());
+            // String root = Environment.getExternalStorageDirectory().getPath() + ;
             String path = root + hashCode + ".png";
             File file = new File(path);
             if (!file.exists()) {
@@ -634,10 +574,8 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
             }
             Bitmap bMap = BitmapFactory.decodeFile(path);
             colourImageView.setImageBT(bMap);
-            //Toast.makeText(this, getString(R.string.opensuccess), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             L.e(e.toString());
-            //Toast.makeText(this, getString(R.string.openfailed), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -648,27 +586,17 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View view) {
         int color;
-        if (Build.VERSION.SDK_INT >= 11) {
-            color = ((ColorDrawable) view.getBackground()).getColor();
-        } else {
-            Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_4444);
-            Canvas canvas = new Canvas(bitmap);
-            view.getBackground().draw(canvas);
-            int pix = bitmap.getPixel(0, 0);
-            bitmap.recycle();
-            color = pix;
-        }
+        color = ((ColorDrawable) view.getBackground()).getColor();
         L.e(color + "");
         colorPickerSeekBar.setColor(color);
         changeCurrentColor(color);
@@ -694,57 +622,48 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
-        View.OnClickListener savelistener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogInterface.OnDismissListener onCancelListener = new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        saveToLocalandFinish();
-                    }
-                };
-                myDialogFactory.dismissDialog(onCancelListener);
-            }
+        View.OnClickListener savelistener = view -> {
+            DialogInterface.OnDismissListener onCancelListener = dialogInterface -> saveToLocalAndFinish();
+            myDialogFactory.dismissDialog(onCancelListener);
         };
-        View.OnClickListener quitlistener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialogFactory.dismissDialog();
-                finish();
-            }
+
+        View.OnClickListener quitlistener = view -> {
+            myDialogFactory.dismissDialog();
+            finish();
         };
+
         myDialogFactory.FinishSaveImageDialog(savelistener, quitlistener);
     }
 
-    private void saveToLocalandFinish() {
-        //UmengUtil.analysitic(PaintActivity.this, UmengUtil.SAVEIMAGE, URL);
+    private void saveToLocalAndFinish() {
         MyProgressDialog.show(PaintActivity.this, null, getString(R.string.savingimage));
         SaveImageAsyn saveImageAsyn = new SaveImageAsyn();
-        if (fromSDcard) {
+
+        if (fromSDCard) {
             saveImageAsyn.execute(colourImageView.getmBitmap(), PAINTNAME);
         } else {
-            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLageUrl(URL).hashCode());
+            saveImageAsyn.execute(colourImageView.getmBitmap(), ImageSaveUtil.convertImageLargeUrl(URL).hashCode());
         }
-        saveImageAsyn.setOnSaveSuccessListener(new SaveImageAsyn.OnSaveFinishListener() {
-            @Override
-            public void onSaveFinish(String path) {
-                MyProgressDialog.DismissDialog();
-                if (path == null) {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+
+        saveImageAsyn.setOnSaveSuccessListener(path -> {
+            MyProgressDialog.DismissDialog();
+
+            if (path == null) {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(PaintActivity.this, getString(R.string.saveSuccess) + path, Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         if (colourImageView != null && colourImageView.getmBitmap() != null) {
             outState.putParcelable("bitmap", (colourImageView.getmBitmap().copy(colourImageView.getmBitmap().getConfig(), true)));
         }
+
         super.onSaveInstanceState(outState);
     }
 
@@ -752,24 +671,24 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState.getParcelable("bitmap") != null)
             cachedBitmap = savedInstanceState.getParcelable("bitmap");
+
         super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == MyApplication.PaintActivityRequest) {
-            switch (resultCode) {
-                case MyApplication.RepaintResult:
-                    repaint();
-                    break;
+            if (resultCode == MyApplication.RepaintResult) {
+                repaint();
             }
         }
 
     }
 
     private void repaint() {
-        if (fromSDcard) {
+        if (fromSDCard) {
             if (FileUtils.deleteFile(URL)) {
                 finish();
             } else {
@@ -778,7 +697,9 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         } else {
             MyProgressDialog.show(this, null, getString(R.string.loadpicture));
             colourImageView.clearStack();
-            AsynImageLoader.showLagreImageAsynWithAllCacheOpen(colourImageView, URL, new ImageLoadingListener() {
+
+            AsynImageLoader.showLargeImageAsynWithAllCacheOpen(colourImageView, URL, new ImageLoadingListener() {
+
                 @Override
                 public void onLoadingStarted(String s, View view) {
 
@@ -809,12 +730,6 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setSavedColors(cColor1, cColor2, cColor3, cColor4);
-    }
-
     private void setSavedColors(ImageView cColor1, ImageView cColor2, ImageView cColor3, ImageView cColor4) {
         SharedPreferencesFactory.saveInteger(this, SharedPreferencesFactory.SavedColor1, ((ColorDrawable) cColor1.getDrawable()).getColor());
         SharedPreferencesFactory.saveInteger(this, SharedPreferencesFactory.SavedColor2, ((ColorDrawable) cColor2.getDrawable()).getColor());
@@ -827,7 +742,6 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener 
         cColor2.setImageDrawable(new ColorDrawable(SharedPreferencesFactory.getInteger(this, SharedPreferencesFactory.SavedColor2, getResources().getColor(R.color.yellow))));
         cColor3.setImageDrawable(new ColorDrawable(SharedPreferencesFactory.getInteger(this, SharedPreferencesFactory.SavedColor3, getResources().getColor(R.color.skyblue))));
         cColor4.setImageDrawable(new ColorDrawable(SharedPreferencesFactory.getInteger(this, SharedPreferencesFactory.SavedColor4, getResources().getColor(R.color.green))));
-
     }
 
     @Override

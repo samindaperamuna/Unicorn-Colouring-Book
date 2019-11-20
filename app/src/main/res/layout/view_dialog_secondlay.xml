@@ -20,7 +20,7 @@
             android:paddingBottom="5dp"
             android:visibility="gone">
 
-            <org.fifthgen.colouringbooks.view.ImageButton_define_secondLay
+            <org.fifthgen.colouringbooks.view.imageButtonDefineSecondLay
                 android:id="@+id/undo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:text="@string/undo"
                 android:textColor="@color/gray" />
 
-            <org.fifthgen.colouringbooks.view.ImageButton_define_secondLay
+            <org.fifthgen.colouringbooks.view.imageButtonDefineSecondLay
                 android:id="@+id/redo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:text="@string/redo"
                 android:textColor="@color/gray" />
 
-            <org.fifthgen.colouringbooks.view.ImageCheckBox_define
+            <org.fifthgen.colouringbooks.view.imageCheckBoxDefine
                 android:id="@+id/pickcolor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:text="@string/pickcolor"
                 android:textColor="@color/gray" />
 
-            <org.fifthgen.colouringbooks.view.ImageCheckBox_define
+            <org.fifthgen.colouringbooks.view.imageCheckBoxDefine
                 android:id="@+id/drawline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:text="@string/drawLine"
                 android:textColor="@color/gray" />
 
-            <org.fifthgen.colouringbooks.view.ImageCheckBox_define
+            <org.fifthgen.colouringbooks.view.imageCheckBoxDefine
                 android:id="@+id/jianbian_color"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -73,11 +73,15 @@
 
 
             <ImageView
+                android:contentDescription="@string/normal_color"
                 android:id="@+id/advance_color"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/lightgray_round_bg"
                 android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
                 android:paddingTop="3dp"
                 app:srcCompat="@drawable/hidebutton" />
 

@@ -1,5 +1,7 @@
 package org.fifthgen.colouringbooks.controller;
 
+import android.annotation.SuppressLint;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -7,7 +9,8 @@ import com.google.android.material.appbar.AppBarLayout;
 /**
  * Created by GameGFX Studio on 2015/9/2.
  */
-public class AppCompatBaseAcitivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
+@SuppressLint("Registered")
+public class AppCompatBaseActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
     protected AppBarLayout appBarLayout;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
@@ -35,11 +38,4 @@ public class AppCompatBaseAcitivity extends BaseActivity implements AppBarLayout
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (appBarLayout != null) {
-            appBarLayout.removeOnOffsetChangedListener(this);
-        }
-    }
 }
