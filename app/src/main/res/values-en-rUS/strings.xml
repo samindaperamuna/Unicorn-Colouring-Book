@@ -39,9 +39,7 @@
     </string>    
     <string name="nexttime">Later</string>    
     <string name="gocomment">Give me Five</string>    
-    <string name="clearcache">clear all ImageCache \n your work will not be
-        deleted
-    </string>
+    <string name="clearcache">clear image cache</string>
       
     <string name="clearcacheing">Cleaning the cache, please wait</string>
       
@@ -214,5 +212,5 @@
     <string name="jianbian_color">Gradual</string>
     <string name="normal_color">Normal</string>
     <string name="gradualModel">Gradual Model</string>
-    <string name="gradualModelHint">Advanced features - gradient colors. Note: You can not cover other colors after a gradient color, if you want to modify, please undo first!</string>
+    <string name="gradualModelHint">Advanced features - gradient colors.\n\nNote: You can not cover other colors after a gradient color. If you want to modify, please undo first!</string>
 </resources>

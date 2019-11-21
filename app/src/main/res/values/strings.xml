@@ -75,7 +75,7 @@
         
     <string name="gocomment">Notez</string>
         
-    <string name="clearcache">Effacer toutes les images en cache \n Votre travail ne sera pas supprimé</string>
+    <string name="clearcache">Effacer toutes les images en cache</string>
         
         
     <string name="clearcacheing">Nettoyage du cache, veuillez patienter </string>

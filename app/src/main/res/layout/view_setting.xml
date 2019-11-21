@@ -9,10 +9,11 @@
         android:id="@+id/current_stacksize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:text="@string/undostacksize" />
 
     <SeekBar
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minWidth="150dp" />
 
@@ -45,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/language" />
 
     <RadioGroup
@@ -61,36 +63,47 @@
             android:background="@drawable/radiobutton_checkchanged"
             android:button="@null"
             android:gravity="center"
+            android:minWidth="75dp"
             android:minHeight="40dp"
+            android:textSize="@dimen/small_textsize"
             android:text="@string/langCN"
             android:textColor="@drawable/textsize_textcolor" />
 
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
 
         <RadioButton
             android:id="@+id/EN"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_checkchanged"
             android:button="@null"
             android:gravity="center"
+            android:minWidth="75dp"
             android:minHeight="40dp"
+            android:textSize="@dimen/small_textsize"
             android:text="@string/langEN"
             android:textColor="@drawable/textsize_textcolor" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
 
         <RadioButton
             android:id="@+id/FR"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_checkchanged"
             android:button="@null"
             android:gravity="center"
+            android:minWidth="75dp"
             android:minHeight="40dp"
+            android:textSize="@dimen/small_textsize"
             android:text="@string/langFR"
             android:textColor="@drawable/textsize_textcolor" />
     </RadioGroup>

@@ -31,7 +31,7 @@
     <string name="commentDialogContent">快来给我五星好评，即可免费下载新的线稿哦！</string>
     <string name="nexttime">以后再说</string>
     <string name="gocomment">去评论</string>
-    <string name="clearcache">清除全部已下载的图片\n您的作品不会删除</string>
+    <string name="clearcache">清除全部已下载的图片</string>
     <string name="clearcacheing">正在清理缓存，请稍后</string>
     <string name="clearcachesuccess">清除成功</string>
     <string name="themelist">主题列表</string>

@@ -70,10 +70,10 @@ public class MyDialogStyle {
 
     public void showOneButtonDialog(String titlestr, CharSequence Content, String btntext1, View.OnClickListener listener1, boolean cancelable) {
         dialog.setCancelable(cancelable);
-        View detail_layout = View.inflate(
-                context,
-                R.layout.dialog_one_button, null);
+
+        View detail_layout = View.inflate(context, R.layout.dialog_one_button, null);
         dialog.setContentView(detail_layout);
+
         TextView content = detail_layout.findViewById(R.id.content);
         TextView title = detail_layout.findViewById(R.id.title);
 
@@ -106,8 +106,10 @@ public class MyDialogStyle {
 
     public void showBlankDialog(String titlestr, String btntext1, View.OnClickListener listener1, boolean cancelable, View view) {
         dialog.setCancelable(cancelable);
+
         View detail_layout = View.inflate(context, R.layout.dialog_blank, null);
         dialog.setContentView(detail_layout);
+
         TextView title = detail_layout.findViewById(R.id.title);
         FrameLayout frameLayout = detail_layout.findViewById(R.id.customcontent);
 

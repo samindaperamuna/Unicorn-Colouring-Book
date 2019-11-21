@@ -50,11 +50,19 @@ public class MyDialogFactory extends MyDialogStyle {
     }
 
     public void showAboutDialog() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(context.getString(R.string.version)).append(":").append(MyApplication.getVersion(context)).append("\n");
-        buffer.append(context.getString(R.string.aboutImage)).append("\n");
+        @SuppressLint("InflateParams") View layout = LayoutInflater.from(context).inflate(R.layout.view_about, null);
+        TextView version = layout.findViewById(R.id.version);
+        version.setText(String.format(Locale.getDefault(),
+                "Version : %s", MyApplication.getVersion(context)));
+
         View.OnClickListener listener = view -> dismissDialog();
-        showOneButtonDialog(context.getString(R.string.app_name), buffer, context.getString(R.string.ok), listener, true);
+        showBlankDialog(context.getString(R.string.app_name), layout, listener);
+
+//        StringBuffer buffer = new StringBuffer();
+//        buffer.append(context.getString(R.string.version)).append(":").append(MyApplication.getVersion(context)).append("\n");
+//        buffer.append(context.getString(R.string.aboutImage)).append("\n");
+//        View.OnClickListener listener = view -> dismissDialog();
+//        showOneButtonDialog(context.getString(R.string.app_name), buffer, context.getString(R.string.ok), listener, true);
     }
 
     public void showSettingDialog() {
@@ -73,12 +81,14 @@ public class MyDialogFactory extends MyDialogStyle {
             });
             AsynImageLoader.clearCache();
         });
+
         Button deletePaint = layout.findViewById(R.id.deletePaint);
         deletePaint.setText(context.getString(R.string.deleteAllPaints));
         deletePaint.setOnClickListener(view -> {
             MyDialogFactory myDialogFactory = new MyDialogFactory(context);
             myDialogFactory.showDeletePaintsDialog();
         });
+
         Button checkupdate = layout.findViewById(R.id.checkupdate);
         checkupdate.setText(context.getString(R.string.checkupdate));
         checkupdate.setOnClickListener(view -> {
@@ -114,9 +124,9 @@ public class MyDialogFactory extends MyDialogStyle {
         if (lancode == 1) {
             ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
         } else if (lancode == 3) {
-            ((RadioButton) radioGroup.getChildAt(1)).setChecked(true);
-        } else if (lancode == 4) {
             ((RadioButton) radioGroup.getChildAt(2)).setChecked(true);
+        } else if (lancode == 4) {
+            ((RadioButton) radioGroup.getChildAt(4)).setChecked(true);
         }
     }
 
