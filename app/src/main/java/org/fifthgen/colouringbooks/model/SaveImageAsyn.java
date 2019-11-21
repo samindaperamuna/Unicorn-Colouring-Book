@@ -23,16 +23,20 @@ public class SaveImageAsyn extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] objects) {
         Bitmap bmp = (Bitmap) objects[0];
+
         path = Environment.getExternalStorageDirectory().getPath() + "/MyFCWorks/";
+
         File dir = new File(path);
         if (!dir.exists())
             dir.mkdirs();
+
         name = objects[1] + ".png";
         File file = new File(dir, name);
         FileOutputStream out = null;
+
         try {
             out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
             return "SUCCESS";
         } catch (Exception e) {
@@ -51,6 +55,7 @@ public class SaveImageAsyn extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
+
         if ("SUCCESS".equals(o)) {
             if (onSaveFinishListener != null) {
                 onSaveFinishListener.onSaveFinish(path + name);

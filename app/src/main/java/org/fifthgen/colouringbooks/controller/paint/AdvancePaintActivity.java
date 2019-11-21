@@ -101,6 +101,7 @@ public class AdvancePaintActivity extends BaseActivity {
         saveImageAsyn.execute(paintview.getDrawingCache(), MyApplication.SHAREWORK);
         saveImageAsyn.setOnSaveSuccessListener(path -> {
             MyProgressDialog.DismissDialog();
+
             if (path == null) {
                 Toast.makeText(AdvancePaintActivity.this, getString(R.string.saveFailed), Toast.LENGTH_SHORT).show();
             } else {
