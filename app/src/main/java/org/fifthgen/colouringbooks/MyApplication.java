@@ -31,9 +31,9 @@ public class MyApplication extends Application {
     public static final String PATHIMG = "coloring/";
     public static final String BAIDUTRANSLATEAPI = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=iD8ulydDkWhNWFmQEGEGY4m9&";
 
-    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
-    public static final String INTERSTITIAL_AD = "ca-app-pub-3940256099942544/1033173712";
-    public static final String BANNER_AD = "ca-app-pub-3940256099942544/6300978111";
+    public static final String ADMOB_APP_ID = "ca-app-pub-5247973607982667~2117166723";
+    public static final String INTERSTITIAL_AD = "ca-app-pub-5247973607982667/1609900266";
+    public static final String BANNER_AD = "ca-app-pub-5247973607982667/4551758375";
 
     public static final String MainUrl = "http://api.fingercoloring.com/pic/extAPI";
     public static final String ThemeListUrl = MainUrl + "/category"; // post pageid from 0
